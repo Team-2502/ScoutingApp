@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/offGround"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fromGround"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addGround"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/groundCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/assistsStarted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assistsInitiated"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addStarted"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/startedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/assistsReceived"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/assistsAcquired"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addReceived"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/reveivedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/secAssistsStarted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/secondAssistsInitiated"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addSecStarted"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/secStartedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/secAssistsReceived"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/secondAssistsAcquired"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addSecReceived"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/secReceivedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/scoredLow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scoredLow"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addLow"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/scoredLowCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/scoredHigh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/scoredHigh"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addHigh"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/scoredHighCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/overTruss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/thrownOverTruss"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addOverTruss"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/overTrussCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/fromTruss"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/caughtOverTruss"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/addFromTruss"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/add_button_size"
+                android:minWidth="@dimen/add_button_size"
+                android:text="@string/add" />
+
+            <EditText
+                android:id="@+id/fromTrussCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="3"
+                android:gravity="center_vertical|right"
+                android:inputType="number"
+                android:text="0" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
