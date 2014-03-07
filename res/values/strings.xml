@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ScoutingApp</string>
+    <string name="app_name">Aerial Assist Scouting</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="team_number">Team Number</string>
+    <string name="team_number_hint">2502</string>
+    <string name="match_number">Match Number</string>
+    <string name="match_number_hint">14</string>
+    <string name="autonomous">Autonomus</string>
+    <string name="teleop">Teleop</string>
+    <string name="finalize">Finalize</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="moved">Moved</string>
+    <string name="scoredHot">Scored Hot</string>
+    <string name="scoredLow">Scored Low</string>
+    <string name="scoredHigh">Scored High</string>
+    <string name="fromGround">Picked Off Ground</string>
+    <string name="assistsInitiated">Assists Initiated</string>
+    <string name="assistsAcquired">Assists Acquired</string>
+    <string name="secondAssistsInitiated">2nd Assists Initiated</string>
+    <string name="secondAssistsAcquired">2nd Assists Acquired</string>
+    <string name="thrownOverTruss">Thrown Over Truss</string>
+    <string name="caughtOverTruss">Caught Over Truss</string>
+    <string name="add">+</string>
+    <string name="goalie">Goalie</string>
+    <string name="passer">Passer</string>
+    <string name="catcher">Catcher</string>
+    <string name="launcher">Launcher</string>
+    <string name="defense">Defense</string>
+    <string name="broken">Broken</string>
+    <string name="notes">Notes</string>
+    <string name="strategyLabel">Strategy</string>
+    <string name="submit">Submit</string>
+    <string name="reset">Reset</string>
 
 </resources>

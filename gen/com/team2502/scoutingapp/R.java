@@ -19,23 +19,107 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        public static final int add_button_size=0x7f040002;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080000;
+        public static final int action_settings=0x7f080032;
+        public static final int addFromTruss=0x7f080030;
+        public static final int addGround=0x7f080018;
+        public static final int addHigh=0x7f08002a;
+        public static final int addLow=0x7f080027;
+        public static final int addOverTruss=0x7f08002d;
+        public static final int addReceived=0x7f08001e;
+        public static final int addSecReceived=0x7f080024;
+        public static final int addSecStarted=0x7f080021;
+        public static final int addStarted=0x7f08001b;
+        public static final int assistsReceived=0x7f08001d;
+        public static final int assistsStarted=0x7f08001a;
+        public static final int autonomousSection=0x7f080008;
+        public static final int brokenCheck=0x7f080013;
+        public static final int catcherCheck=0x7f080010;
+        public static final int content=0x7f080002;
+        public static final int defenseCheck=0x7f080012;
+        public static final int fromTruss=0x7f08002f;
+        public static final int fromTrussCount=0x7f080031;
+        public static final int goalieCheck=0x7f08000e;
+        public static final int groundCount=0x7f080019;
+        public static final int handle=0x7f080003;
+        public static final int launcherCheck=0x7f080011;
+        public static final int matchNumber=0x7f080007;
+        public static final int matchNumberLabel=0x7f080006;
+        public static final int movedSwitch=0x7f080009;
+        public static final int notesBox=0x7f080014;
+        public static final int offGround=0x7f080017;
+        public static final int overTruss=0x7f08002c;
+        public static final int overTrussCount=0x7f08002e;
+        public static final int pager=0x7f080000;
+        public static final int passerCheck=0x7f08000f;
+        public static final int resetButton=0x7f080016;
+        public static final int reveivedCount=0x7f08001f;
+        public static final int scoredHigh=0x7f080029;
+        public static final int scoredHighCount=0x7f08002b;
+        public static final int scoredHighSwitch=0x7f08000b;
+        public static final int scoredHotSwitch=0x7f08000c;
+        public static final int scoredLow=0x7f080026;
+        public static final int scoredLowCount=0x7f080028;
+        public static final int scoredLowSwitch=0x7f08000a;
+        public static final int secAssistsReceived=0x7f080023;
+        public static final int secAssistsStarted=0x7f080020;
+        public static final int secReceivedCount=0x7f080025;
+        public static final int secStartedCount=0x7f080022;
+        public static final int slidingDrawer1=0x7f080001;
+        public static final int startedCount=0x7f08001c;
+        public static final int strategySection=0x7f08000d;
+        public static final int submitButton=0x7f080015;
+        public static final int teamNumber=0x7f080005;
+        public static final int teamNumberLabel=0x7f080004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
+        public static final int fragment_section_autonomous=0x7f030001;
+        public static final int fragment_section_finalize=0x7f030002;
+        public static final int fragment_section_teleop=0x7f030003;
     }
     public static final class menu {
         public static final int main=0x7f070000;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
+        public static final int add=0x7f050016;
         public static final int app_name=0x7f050000;
-        public static final int hello_world=0x7f050002;
+        public static final int assistsAcquired=0x7f050011;
+        public static final int assistsInitiated=0x7f050010;
+        public static final int autonomous=0x7f050006;
+        public static final int broken=0x7f05001c;
+        public static final int catcher=0x7f050019;
+        public static final int caughtOverTruss=0x7f050015;
+        public static final int defense=0x7f05001b;
+        public static final int finalize=0x7f050008;
+        public static final int fromGround=0x7f05000f;
+        public static final int goalie=0x7f050017;
+        public static final int launcher=0x7f05001a;
+        public static final int match_number=0x7f050004;
+        public static final int match_number_hint=0x7f050005;
+        public static final int moved=0x7f05000b;
+        public static final int no=0x7f05000a;
+        public static final int notes=0x7f05001d;
+        public static final int passer=0x7f050018;
+        public static final int reset=0x7f050020;
+        public static final int scoredHigh=0x7f05000e;
+        public static final int scoredHot=0x7f05000c;
+        public static final int scoredLow=0x7f05000d;
+        public static final int secondAssistsAcquired=0x7f050013;
+        public static final int secondAssistsInitiated=0x7f050012;
+        public static final int strategyLabel=0x7f05001e;
+        public static final int submit=0x7f05001f;
+        public static final int team_number=0x7f050002;
+        public static final int team_number_hint=0x7f050003;
+        public static final int teleop=0x7f050007;
+        public static final int thrownOverTruss=0x7f050014;
+        public static final int yes=0x7f050009;
     }
     public static final class style {
         /** 
