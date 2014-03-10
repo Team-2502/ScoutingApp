@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical|right"
                 android:hint="@string/match_number_hint"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxEms="3"
                 android:minEms="2" />
@@ -70,15 +71,16 @@
             style="?android:attr/listSeparatorTextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="-8dp"
-            android:layout_marginRight="-8dp"
             android:text="@string/autonomous" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="4dp" >
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="4dp" >
 
             <Switch
                 android:id="@+id/movedSwitch"
