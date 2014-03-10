@@ -8,15 +8,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.util.SparseArrayCompat;
 //import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 //import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBar.Tab;
 //import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
 
@@ -59,6 +64,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
 
 	}
+	
+	public void addToTeleopCount(View v) {
+	}
 
 //	@Override
 //	public boolean onCreateOptionsMenu(Menu menu) {
@@ -99,11 +107,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 	}
 
-	public static class TeleopSectionFragment extends Fragment {
+	public static class TeleopSectionFragment extends Fragment implements OnClickListener {
+		private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.inflate(R.layout.fragment_section_teleop, container, false);
+			buttons.put(R.id.addGround, (EditText) view.findViewById(R.id.groundCount));
+			buttons.put(R.id.addStarted, (EditText) view.findViewById(R.id.startedCount));
+			buttons.put(R.id.addReceived, (EditText) view.findViewById(R.id.receivedCount));
+			buttons.put(R.id.addSecStarted, (EditText) view.findViewById(R.id.secStartedCount));
+			buttons.put(R.id.addSecReceived, (EditText) view.findViewById(R.id.secReceivedCount));
+			buttons.put(R.id.addHigh, (EditText) view.findViewById(R.id.scoredHighCount));
+			buttons.put(R.id.addLow, (EditText) view.findViewById(R.id.scoredLowCount));
+			buttons.put(R.id.addOverTruss, (EditText) view.findViewById(R.id.overTrussCount));
+			buttons.put(R.id.addFromTruss, (EditText) view.findViewById(R.id.fromTrussCount));
+			for(int i = 0; i < buttons.size(); i++) {
+				((Button) view.findViewById(buttons.keyAt(i))).setOnClickListener(this);
+			}
 			return view;
+		}
+
+		@Override
+		public void onClick(View v) {
+			EditText countText = buttons.get(v.getId());
+			try {
+				int count = (int) Double.parseDouble(countText.getText().toString());
+				count++;
+				countText.setText(String.valueOf(count));
+			} catch (NumberFormatException e) {
+				countText.setText("0");
+			}
 		}
 	}
 
