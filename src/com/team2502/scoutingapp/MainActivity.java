@@ -11,16 +11,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.util.SparseArrayCompat;
 //import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 //import android.support.v7.app.ActionBar;
 //import android.support.v7.app.ActionBar.Tab;
 //import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.EditText;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener{
@@ -106,7 +105,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			return view;
 		}
 	}
-
+	
 	public static class TeleopSectionFragment extends Fragment implements OnClickListener {
 		private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
 		@Override
@@ -139,13 +138,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		}
 	}
-
-	public static class FinalizeSectionFragment extends Fragment {
+	
+	public static class FinalizeSectionFragment extends Fragment implements OnClickListener {
+		private SparseArrayCompat<CheckedTextView> checkboxes = new SparseArrayCompat<CheckedTextView>();
+		
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 			View view = inflater.inflate(R.layout.fragment_section_finalize, container, false);
+			checkboxes.put(R.id.goalieCheck, (CheckedTextView) view.findViewById(R.id.goalieCheck));
+			checkboxes.put(R.id.passerCheck, (CheckedTextView) view.findViewById(R.id.passerCheck));
+			checkboxes.put(R.id.catcherCheck, (CheckedTextView) view.findViewById(R.id.catcherCheck));
+			checkboxes.put(R.id.launcherCheck, (CheckedTextView) view.findViewById(R.id.launcherCheck));
+			checkboxes.put(R.id.defenseCheck, (CheckedTextView) view.findViewById(R.id.defenseCheck));
+			checkboxes.put(R.id.brokenCheck, (CheckedTextView) view.findViewById(R.id.brokenCheck));
+			for(int i = 0; i < checkboxes.size(); i++) {
+				checkboxes.valueAt(i).setOnClickListener(this);
+			}
 			return view;
 		}
+		
+		@Override
+		public void onClick(View v) {
+			if (!(v instanceof CheckedTextView))
+				return;
+			((CheckedTextView)v).toggle();
+		}
+		
 	}
-
+	
 }
