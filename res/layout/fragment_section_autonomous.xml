@@ -86,8 +86,8 @@
                 android:id="@+id/movedSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/moved"
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
@@ -96,8 +96,8 @@
                 android:id="@+id/scoredLowSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/scoredLow"
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
@@ -106,8 +106,8 @@
                 android:id="@+id/scoredHighSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/scoredHigh"
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
@@ -116,8 +116,8 @@
                 android:id="@+id/scoredHotSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/scoredHot"
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
