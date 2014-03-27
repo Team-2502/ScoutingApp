@@ -367,8 +367,8 @@ public class Match {
 	 * @param rating the rating to set
 	 */
 	public void setRating(float rating) {
-		if (matchNumber < 0 || matchNumber > 1)
-			throw new InvalidParameterException("Value must be between 1 and 0");
+		if (matchNumber < 0 || matchNumber >= 5)
+			throw new InvalidParameterException("Value must be between 0 and 5");
 		this.rating = rating;
 	}
 
