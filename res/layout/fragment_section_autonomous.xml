@@ -82,45 +82,37 @@
             android:paddingRight="12dp"
             android:paddingTop="4dp" >
 
-            <Switch
+            <CheckBox
                 android:id="@+id/movedSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/moved"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:text="@string/moved"/>
 
-            <Switch
+            <CheckBox
                 android:id="@+id/scoredLowSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/scoredLow"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:text="@string/scored_low"/>
 
-            <Switch
+            <CheckBox
                 android:id="@+id/scoredHighSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/scoredHigh"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:text="@string/scored_high"/>
 
-            <Switch
+            <CheckBox
                 android:id="@+id/scoredHotSwitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/scoredHot"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
+                android:text="@string/scored_hot"/>
         </LinearLayout>
     </LinearLayout>
 

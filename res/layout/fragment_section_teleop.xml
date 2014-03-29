@@ -18,7 +18,7 @@
                 android:id="@+id/offGround"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/fromGround"
+                android:text="@string/from_ground"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -54,7 +54,7 @@
                 android:id="@+id/assistsStarted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/assistsInitiated"
+                android:text="@string/assists_initiated"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -90,7 +90,7 @@
                 android:id="@+id/assistsReceived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/assistsAcquired"
+                android:text="@string/assists_acquired"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -126,7 +126,7 @@
                 android:id="@+id/secAssistsStarted"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/secondAssistsInitiated"
+                android:text="@string/second_assists_initiated"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -162,7 +162,7 @@
                 android:id="@+id/secAssistsReceived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/secondAssistsAcquired"
+                android:text="@string/second_assists_acquired"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -198,7 +198,7 @@
                 android:id="@+id/scoredLow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/scoredLow"
+                android:text="@string/scored_low"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -234,7 +234,7 @@
                 android:id="@+id/scoredHigh"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/scoredHigh"
+                android:text="@string/scored_high"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -270,7 +270,7 @@
                 android:id="@+id/overTruss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/thrownOverTruss"
+                android:text="@string/thrown_over_truss"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
@@ -306,7 +306,7 @@
                 android:id="@+id/fromTruss"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/caughtOverTruss"
+                android:text="@string/caught_over_truss"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <View
