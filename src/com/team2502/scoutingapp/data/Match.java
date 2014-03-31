@@ -3,16 +3,16 @@ package com.team2502.scoutingapp.data;
 import java.security.InvalidParameterException;
 
 public class Match {
-	
+
 	private Team team;
 	private int matchNumber;
-	
+
 	//Autonomus
 	private boolean autoMoved;
 	private boolean autoScoredLow;
 	private boolean autoScoredHigh;
 	private boolean autoScoredHot;
-	
+
 	//Teleop
 	private int offGround;
 	private int assistsStarted;
@@ -23,7 +23,7 @@ public class Match {
 	private int scoredHigh;
 	private int overTruss;
 	private int fromTruss;
-	
+
 	//Final
 	private boolean goalie;
 	private boolean passer;
@@ -32,7 +32,7 @@ public class Match {
 	private boolean defense;
 	private boolean broken;
 	private float rating;
-	
+
 	private String notes;
 
 	/**
@@ -244,7 +244,7 @@ public class Match {
 	 * @param offGround the offGround to set
 	 */
 	public void setOffGround(int offGround) {
-		if (matchNumber < 0)
+		if (offGround < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.offGround = offGround;
 	}
@@ -253,7 +253,7 @@ public class Match {
 	 * @param assistsStarted the assistsStarted to set
 	 */
 	public void setAssistsStarted(int assistsStarted) {
-		if (matchNumber < 0)
+		if (assistsStarted < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.assistsStarted = assistsStarted;
 	}
@@ -262,7 +262,7 @@ public class Match {
 	 * @param assistsReceived the assistsReceived to set
 	 */
 	public void setAssistsReceived(int assistsReceived) {
-		if (matchNumber < 0)
+		if (assistsReceived < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.assistsReceived = assistsReceived;
 	}
@@ -271,7 +271,7 @@ public class Match {
 	 * @param secAssistsStarted the secAssistsStarted to set
 	 */
 	public void setSecAssistsStarted(int secAssistsStarted) {
-		if (matchNumber < 0)
+		if (secAssistsStarted < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.secAssistsStarted = secAssistsStarted;
 	}
@@ -280,7 +280,7 @@ public class Match {
 	 * @param secAssistsReceived the secAssistsReceived to set
 	 */
 	public void setSecAssistsReceived(int secAssistsReceived) {
-		if (matchNumber < 0)
+		if (secAssistsReceived < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.secAssistsReceived = secAssistsReceived;
 	}
@@ -289,7 +289,7 @@ public class Match {
 	 * @param scoredLow the scoredLow to set
 	 */
 	public void setScoredLow(int scoredLow) {
-		if (matchNumber < 0)
+		if (scoredLow < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.scoredLow = scoredLow;
 	}
@@ -298,7 +298,7 @@ public class Match {
 	 * @param scoredHigh the scoredHigh to set
 	 */
 	public void setScoredHigh(int scoredHigh) {
-		if (matchNumber < 0)
+		if (scoredHigh < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.scoredHigh = scoredHigh;
 	}
@@ -307,7 +307,7 @@ public class Match {
 	 * @param overTruss the overTruss to set
 	 */
 	public void setOverTruss(int overTruss) {
-		if (matchNumber < 0)
+		if (overTruss < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.overTruss = overTruss;
 	}
@@ -316,7 +316,7 @@ public class Match {
 	 * @param fromTruss the fromTruss to set
 	 */
 	public void setFromTruss(int fromTruss) {
-		if (matchNumber < 0)
+		if (fromTruss < 0)
 			throw new InvalidParameterException("Value must be non-negative");
 		this.fromTruss = fromTruss;
 	}
@@ -367,7 +367,7 @@ public class Match {
 	 * @param rating the rating to set
 	 */
 	public void setRating(float rating) {
-		if (matchNumber < 0 || matchNumber >= 5)
+		if (rating < 0 || rating >= 5)
 			throw new InvalidParameterException("Value must be between 0 and 5");
 		this.rating = rating;
 	}
@@ -378,5 +378,31 @@ public class Match {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
-	
+
+	/**
+	 * @return human-readable summary of the match
+	 */
+	@Override
+	public String toString() {
+		String summary = "Team: " + getTeam().getTeamNumber() + "\n";
+		summary += "Match #: " + getMatchNumber() + "\n\n";
+		summary += "Moved: " + (isAutoMoved() ? "Yes" : "No") + "\n";
+		summary += "Scored Low: " + (isAutoScoredLow() ? "Yes" : "No") + "\n";
+		summary += "Scored High: " + (isAutoScoredHigh() ? "Yes" : "No") + "\n";
+		summary += "Scored Hot: " + (isAutoScoredHot() ? "Yes" : "No") + "\n\n";
+		summary += "Strategy: " + (isGoalie() ? "Goalie " : "") + (isPasser() ? "Passer " : "") + (isCatcher() ? "Catcher " : "") + (isLauncher() ? "Launcher " : "") + (isDefense() ? "Defense " : "") + (isBroken() ? "Broken " : "")  + "\n";
+		summary += "Picked Off Ground: " + getOffGround() + "\n";
+		summary += "Assists Initiated: " + getAssistsStarted() + "\n";
+		summary += "Assists Acquired: " + getAssistsReceived() + "\n";
+		summary += "Second Assists Initiated: " + getSecAssistsStarted() + "\n";
+		summary += "Second Assists Acquired: " + getSecAssistsReceived() + "\n";
+		summary += "Low Goals: " + getScoredLow() + "\n";
+		summary += "High Goals: " + getScoredHigh() + "\n";
+		summary += "Thrown Over Truss: " + getOverTruss() + "\n";
+		summary += "Caught Over Truss: " + getFromTruss() + "\n\n";
+		summary += "Rating: " + getRating() + "\n";
+		summary += "Notes: " + getNotes();
+		return summary;
+	}
+
 }
