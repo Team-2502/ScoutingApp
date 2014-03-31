@@ -13,16 +13,16 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="moved">Moved</string>
-    <string name="scoredHot">Scored Hot</string>
-    <string name="scoredLow">Scored Low</string>
-    <string name="scoredHigh">Scored High</string>
-    <string name="fromGround">Picked Off Ground</string>
-    <string name="assistsInitiated">Assists Initiated</string>
-    <string name="assistsAcquired">Assists Acquired</string>
-    <string name="secondAssistsInitiated">2nd Assists Initiated</string>
-    <string name="secondAssistsAcquired">2nd Assists Acquired</string>
-    <string name="thrownOverTruss">Thrown Over Truss</string>
-    <string name="caughtOverTruss">Caught Over Truss</string>
+    <string name="scored_hot">Scored Hot</string>
+    <string name="scored_low">Scored Low</string>
+    <string name="scored_high">Scored High</string>
+    <string name="from_ground">Picked Off Ground</string>
+    <string name="assists_initiated">Assists Initiated</string>
+    <string name="assists_acquired">Assists Acquired</string>
+    <string name="second_assists_initiated">2nd Assists Initiated</string>
+    <string name="second_assists_acquired">2nd Assists Acquired</string>
+    <string name="thrown_over_truss">Thrown Over Truss</string>
+    <string name="caught_over_truss">Caught Over Truss</string>
     <string name="add">+</string>
     <string name="goalie">Goalie</string>
     <string name="passer">Passer</string>
@@ -31,9 +31,10 @@
     <string name="defense">Defense</string>
     <string name="broken">Broken</string>
     <string name="notes">Notes</string>
-    <string name="strategyLabel">Strategy</string>
+    <string name="strategy_label">Strategy</string>
     <string name="submit">Submit</string>
     <string name="reset">Reset</string>
     <string name="rating">Rating</string>
+    <string name="error_bad_fields">Error: Not All Fields Filled Correctly</string>
 
 </resources>

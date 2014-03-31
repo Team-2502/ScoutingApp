@@ -1052,9 +1052,9 @@ containing a value of this type.
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
-        public static final int ratingBar1=0x7f05004f;
         public static final int receivedCount=0x7f05005a;
         public static final int resetButton=0x7f050051;
+        public static final int robotRating=0x7f05004f;
         public static final int scoredHigh=0x7f050064;
         public static final int scoredHighCount=0x7f050066;
         public static final int scoredHighSwitch=0x7f050045;
@@ -1145,10 +1145,11 @@ containing a value of this type.
         public static final int abc_search_dropdown_item_icons_2line=0x7f030015;
         public static final int abc_search_view=0x7f030016;
         public static final int activity_main=0x7f030017;
-        public static final int fragment_section_autonomous=0x7f030018;
-        public static final int fragment_section_finalize=0x7f030019;
-        public static final int fragment_section_teleop=0x7f03001a;
-        public static final int support_simple_spinner_dropdown_item=0x7f03001b;
+        public static final int activity_team_stats=0x7f030018;
+        public static final int fragment_section_autonomous=0x7f030019;
+        public static final int fragment_section_finalize=0x7f03001a;
+        public static final int fragment_section_teleop=0x7f03001b;
+        public static final int support_simple_spinner_dropdown_item=0x7f03001c;
     }
     public static final class menu {
         public static final int main=0x7f0c0000;
@@ -1197,15 +1198,16 @@ containing a value of this type.
         public static final int action_settings=0x7f0a000e;
         public static final int add=0x7f0a0023;
         public static final int app_name=0x7f0a000d;
-        public static final int assistsAcquired=0x7f0a001e;
-        public static final int assistsInitiated=0x7f0a001d;
+        public static final int assists_acquired=0x7f0a001e;
+        public static final int assists_initiated=0x7f0a001d;
         public static final int autonomous=0x7f0a0013;
         public static final int broken=0x7f0a0029;
         public static final int catcher=0x7f0a0026;
-        public static final int caughtOverTruss=0x7f0a0022;
+        public static final int caught_over_truss=0x7f0a0022;
         public static final int defense=0x7f0a0028;
+        public static final int error_bad_fields=0x7f0a002f;
         public static final int finalize=0x7f0a0015;
-        public static final int fromGround=0x7f0a001c;
+        public static final int from_ground=0x7f0a001c;
         public static final int goalie=0x7f0a0024;
         public static final int launcher=0x7f0a0027;
         public static final int match_number=0x7f0a0011;
@@ -1216,17 +1218,17 @@ containing a value of this type.
         public static final int passer=0x7f0a0025;
         public static final int rating=0x7f0a002e;
         public static final int reset=0x7f0a002d;
-        public static final int scoredHigh=0x7f0a001b;
-        public static final int scoredHot=0x7f0a0019;
-        public static final int scoredLow=0x7f0a001a;
-        public static final int secondAssistsAcquired=0x7f0a0020;
-        public static final int secondAssistsInitiated=0x7f0a001f;
-        public static final int strategyLabel=0x7f0a002b;
+        public static final int scored_high=0x7f0a001b;
+        public static final int scored_hot=0x7f0a0019;
+        public static final int scored_low=0x7f0a001a;
+        public static final int second_assists_acquired=0x7f0a0020;
+        public static final int second_assists_initiated=0x7f0a001f;
+        public static final int strategy_label=0x7f0a002b;
         public static final int submit=0x7f0a002c;
         public static final int team_number=0x7f0a000f;
         public static final int team_number_hint=0x7f0a0010;
         public static final int teleop=0x7f0a0014;
-        public static final int thrownOverTruss=0x7f0a0021;
+        public static final int thrown_over_truss=0x7f0a0021;
         public static final int yes=0x7f0a0016;
     }
     public static final class style {
@@ -2486,7 +2488,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x0101041a
+            0x0101012f, 0x01010130, 0x01010131, 0x01010435
         };
         /**
           <p>
