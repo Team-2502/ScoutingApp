@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			Toast.makeText(getApplicationContext(), "Something went wrong... blame Jackson", Toast.LENGTH_LONG).show();
 		}
 	}
-
+	
 	public void reset() {
 		viewPager.setCurrentItem(0);
 		((AutonomousSectionFragment)appSectionsPagerAdapter.getItem(0)).reset();
@@ -150,9 +150,9 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		((FinalizeSectionFragment)appSectionsPagerAdapter.getItem(2)).reset();
 		((EditText)findViewById(R.id.notesBox)).setText("");
 	}
-
+	
 	public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
-
+		
 		private AutonomousSectionFragment autonomousSection;
 		private TeleopSectionFragment teleopSection;
 		private FinalizeSectionFragment finalizeSection;
@@ -183,177 +183,5 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		}
 
 	}
-
-	public static class AutonomousSectionFragment extends Fragment {
-		private View inflatedView;
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.fragment_section_autonomous, container, false);
-			this.inflatedView = view;
-			return view;
-		}
-
-		public View getInflatedView() {
-			return inflatedView;
-		}
-
-		public Match inputMatchData(Match match) {
-			Team team = new Team();
-			team.setTeamNumber(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.teamNumber)).getEditableText().toString()));
-			match.setTeam(team);
-			match.setMatchNumber(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.matchNumber)).getEditableText().toString()));
-
-			match.setAutoMoved(((Checkable)getInflatedView().findViewById(R.id.movedSwitch)).isChecked());
-			match.setAutoScoredLow(((Checkable)getInflatedView().findViewById(R.id.scoredLowSwitch)).isChecked());
-			match.setAutoScoredHigh(((Checkable)getInflatedView().findViewById(R.id.scoredHighSwitch)).isChecked());
-			match.setAutoScoredHot(((Checkable)getInflatedView().findViewById(R.id.scoredHotSwitch)).isChecked());
-			return match;
-		}
-
-		public void reset() {
-			((EditText)getInflatedView().findViewById(R.id.teamNumber)).setText("");
-			((EditText)getInflatedView().findViewById(R.id.matchNumber)).setText("");
-
-			((Checkable)getInflatedView().findViewById(R.id.movedSwitch)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.scoredLowSwitch)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.scoredHighSwitch)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.scoredHotSwitch)).setChecked(false);
-		}
-	}
-
-	public static class TeleopSectionFragment extends Fragment implements OnClickListener {
-		private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
-		private View inflatedView;
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.fragment_section_teleop, container, false);
-			buttons.put(R.id.addGround, (EditText) view.findViewById(R.id.groundCount));
-			buttons.put(R.id.addStarted, (EditText) view.findViewById(R.id.startedCount));
-			buttons.put(R.id.addReceived, (EditText) view.findViewById(R.id.receivedCount));
-			buttons.put(R.id.addSecStarted, (EditText) view.findViewById(R.id.secStartedCount));
-			buttons.put(R.id.addSecReceived, (EditText) view.findViewById(R.id.secReceivedCount));
-			buttons.put(R.id.addHigh, (EditText) view.findViewById(R.id.scoredHighCount));
-			buttons.put(R.id.addLow, (EditText) view.findViewById(R.id.scoredLowCount));
-			buttons.put(R.id.addOverTruss, (EditText) view.findViewById(R.id.overTrussCount));
-			buttons.put(R.id.addFromTruss, (EditText) view.findViewById(R.id.fromTrussCount));
-			for(int i = 0; i < buttons.size(); i++) {
-				((Button) view.findViewById(buttons.keyAt(i))).setOnClickListener(this);
-			}
-			this.inflatedView = view;
-			return view;
-		}
-
-		public View getInflatedView() {
-			return inflatedView;
-		}
-
-		@Override
-		public void onClick(View v) {
-			EditText countText = buttons.get(v.getId());
-			try {
-				int count = (int) Double.parseDouble(countText.getText().toString());
-				count++;
-				countText.setText(String.valueOf(count));
-			} catch (NumberFormatException e) {
-				countText.setText("0");
-			}
-		}
-
-		public Match inputMatchData(Match match) {
-			match.setOffGround(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.groundCount)).getEditableText().toString()));
-			match.setAssistsStarted(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.startedCount)).getEditableText().toString()));
-			match.setAssistsReceived(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.receivedCount)).getEditableText().toString()));
-			match.setSecAssistsStarted(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.secStartedCount)).getEditableText().toString()));
-			match.setSecAssistsReceived(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.secReceivedCount)).getEditableText().toString()));
-			match.setScoredLow(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).getEditableText().toString()));
-			match.setScoredHigh(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).getEditableText().toString()));
-			match.setOverTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.overTrussCount)).getEditableText().toString()));
-			match.setFromTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.fromTrussCount)).getEditableText().toString()));
-			return match;
-		}
-
-		public void reset() {
-			((EditText)getInflatedView().findViewById(R.id.groundCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.startedCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.receivedCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.secStartedCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.secReceivedCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.overTrussCount)).setText("0");
-			((EditText)getInflatedView().findViewById(R.id.fromTrussCount)).setText("0");
-		}
-	}
-
-	public static class FinalizeSectionFragment extends Fragment implements OnClickListener {
-		private SparseArrayCompat<CheckedTextView> checkboxes = new SparseArrayCompat<CheckedTextView>();
-		private View inflatedView;
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-			View view = inflater.inflate(R.layout.fragment_section_finalize, container, false);
-			checkboxes.put(R.id.goalieCheck, (CheckedTextView) view.findViewById(R.id.goalieCheck));
-			checkboxes.put(R.id.passerCheck, (CheckedTextView) view.findViewById(R.id.passerCheck));
-			checkboxes.put(R.id.catcherCheck, (CheckedTextView) view.findViewById(R.id.catcherCheck));
-			checkboxes.put(R.id.launcherCheck, (CheckedTextView) view.findViewById(R.id.launcherCheck));
-			checkboxes.put(R.id.defenseCheck, (CheckedTextView) view.findViewById(R.id.defenseCheck));
-			checkboxes.put(R.id.brokenCheck, (CheckedTextView) view.findViewById(R.id.brokenCheck));
-			for(int i = 0; i < checkboxes.size(); i++) {
-				checkboxes.valueAt(i).setOnClickListener(this);
-			}
-			view.findViewById(R.id.submitButton).setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					((MainActivity)getActivity()).submit();
-				}
-			});
-			view.findViewById(R.id.resetButton).setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					((MainActivity)getActivity()).reset();
-				}
-			});
-			this.inflatedView = view;
-			return view;
-		}
-
-		public View getInflatedView() {
-			return inflatedView;
-		}
-
-		@Override
-		public void onClick(View v) {
-			if (!(v instanceof CheckedTextView))
-				return;
-			((CheckedTextView)v).toggle();
-		}
-
-		public Match inputMatchData(Match match) {
-			match.setGoalie(((Checkable)getInflatedView().findViewById(R.id.goalieCheck)).isChecked());
-			match.setPasser(((Checkable)getInflatedView().findViewById(R.id.passerCheck)).isChecked());
-			match.setCatcher(((Checkable)getInflatedView().findViewById(R.id.catcherCheck)).isChecked());
-			match.setLauncher(((Checkable)getInflatedView().findViewById(R.id.launcherCheck)).isChecked());
-			match.setDefense(((Checkable)getInflatedView().findViewById(R.id.defenseCheck)).isChecked());
-			match.setBroken(((Checkable)getInflatedView().findViewById(R.id.brokenCheck)).isChecked());
-
-			match.setRating(((RatingBar)getInflatedView().findViewById(R.id.robotRating)).getRating());
-			return match;
-		}
-
-		public void reset() {
-			((Checkable)getInflatedView().findViewById(R.id.goalieCheck)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.passerCheck)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.catcherCheck)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.launcherCheck)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.defenseCheck)).setChecked(false);
-			((Checkable)getInflatedView().findViewById(R.id.brokenCheck)).setChecked(false);
-
-			((RatingBar)getInflatedView().findViewById(R.id.robotRating)).setRating(0.0F);
-		}
-
-	}
+	
 }
