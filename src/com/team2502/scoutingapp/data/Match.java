@@ -4,8 +4,23 @@ import java.security.InvalidParameterException;
 
 public class Match {
 
+	public enum GameType {
+		PRACTICE("Practice"), QUALIFICATION("Qualification"), ELIMINATION("Elimination");
+
+		String name;
+
+		GameType(String name) {
+			this.name = name;	
+		}
+
+		public String toString() {
+			return name;
+		}
+	}
+
 	private Team team;
 	private int matchNumber;
+	private GameType gameType;
 
 	//Autonomus
 	private boolean autoMoved;
@@ -47,6 +62,13 @@ public class Match {
 	 */
 	public int getMatchNumber() {
 		return matchNumber;
+	}
+
+	/**
+	 * @return the game type
+	 */
+	public GameType getGameType() {
+		return gameType;
 	}
 
 	/**
@@ -213,6 +235,13 @@ public class Match {
 	}
 
 	/**
+	 * @param gameType the gameType to set
+	 */
+	public void setGameType(GameType gameType) {
+		this.gameType = gameType;
+	}
+
+	/**
 	 * @param autoMoved the autoMoved to set
 	 */
 	public void setAutoMoved(boolean autoMoved) {
@@ -367,7 +396,7 @@ public class Match {
 	 * @param rating the rating to set
 	 */
 	public void setRating(float rating) {
-		if (rating < 0 || rating >= 5)
+		if (rating < 0 || rating > 5)
 			throw new InvalidParameterException("Value must be between 0 and 5");
 		this.rating = rating;
 	}
@@ -385,7 +414,8 @@ public class Match {
 	@Override
 	public String toString() {
 		String summary = "Team: " + getTeam().getTeamNumber() + "\n";
-		summary += "Match #: " + getMatchNumber() + "\n\n";
+		summary += "Match #: " + getMatchNumber() + "\n";
+		summary += "Match Type: " + getGameType() + "\n\n";
 		summary += "Moved: " + (isAutoMoved() ? "Yes" : "No") + "\n";
 		summary += "Scored Low: " + (isAutoScoredLow() ? "Yes" : "No") + "\n";
 		summary += "Scored High: " + (isAutoScoredHigh() ? "Yes" : "No") + "\n";
