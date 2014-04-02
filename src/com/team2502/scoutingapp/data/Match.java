@@ -3,25 +3,38 @@ package com.team2502.scoutingapp.data;
 import java.security.InvalidParameterException;
 
 public class Match {
-
+	
 	public enum GameType {
-		PRACTICE("Practice"), QUALIFICATION("Qualification"), ELIMINATION("Elimination");
-
-		String name;
-
-		GameType(String name) {
+		PRACTICE("Practice", "P"), QUALIFICATION("Qualification", "Q"),
+		ELIMINATION("Elimination", "E"), INVALID("Invalid", "I");
+		
+		private String name;
+		private String shortName;
+		
+		GameType(String name, String shortName) {
 			this.name = name;	
+			this.shortName = shortName;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public String getShortName() {
+			return shortName;
 		}
 
 		public String toString() {
 			return name;
 		}
 	}
-
+	
+	private String entryTimestamp;
+	private String regional;
 	private Team team;
 	private int matchNumber;
 	private GameType gameType;
-
+	
 	//Autonomus
 	private boolean autoMoved;
 	private boolean autoScoredLow;
@@ -49,12 +62,26 @@ public class Match {
 	private float rating;
 
 	private String notes;
-
+	
+	/**
+	 * @return the timestamp of match entry
+	 */
+	public String getEntryTimestamp() {
+		return entryTimestamp;
+	}
+	
 	/**
 	 * @return the team
 	 */
 	public Team getTeam() {
 		return team;
+	}
+	
+	/**
+	 * @return the regional
+	 */
+	public String getRegional() {
+		return regional;
 	}
 
 	/**
@@ -217,14 +244,28 @@ public class Match {
 	public String getNotes() {
 		return notes;
 	}
-
+	
+	/**
+	 * @param timestamp the timestamp of match entry to set
+	 */
+	public void setEntryTimestamp(String entryTimestamp) {
+		this.entryTimestamp = entryTimestamp;
+	}
+	
 	/**
 	 * @param team the team to set
 	 */
 	public void setTeam(Team team) {
 		this.team = team;
 	}
-
+	
+	/**
+	 * @param regional the regional to set
+	 */
+	public void setRegional(String regional) {
+		this.regional = regional;
+	}
+	
 	/**
 	 * @param matchNumber the matchNumber to set
 	 */

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Team;
+import com.team2502.scoutingapp.data.WebDatabase;
+import com.team2502.scoutingapp.data.Match.GameType;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,29 +16,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.util.SparseArrayCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Checkable;
-import android.widget.CheckedTextView;
 import android.widget.EditText;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity implements TabListener {
-
+	
 	private AppSectionsPagerAdapter appSectionsPagerAdapter;
 	private ViewPager viewPager;
 	public ArrayList<Match> matches = new ArrayList<Match>();
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,10 +46,15 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 				actionBar.setSelectedNavigationItem(position);
 			}
 		});
-
+		
 		actionBar.addTab(actionBar.newTab().setText(R.string.autonomous).setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.teleop).setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.finalize).setTabListener(this));
+		Match m = new Match();
+		m.setTeam(new Team(2502));
+		m.setGameType(GameType.ELIMINATION);
+		m.setNotes("");
+		new WebDatabase().addMatchData(m);
 	}
 
 	@Override

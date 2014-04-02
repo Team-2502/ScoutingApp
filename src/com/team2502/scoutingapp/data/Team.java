@@ -5,6 +5,14 @@ import java.security.InvalidParameterException;
 public class Team {
 	
 	private int teamNumber;
+	
+	public Team() {
+		this(0);
+	}
+	
+	public Team(int teamNumber) {
+		this.teamNumber = teamNumber;
+	}
 
 	/**
 	 * @return the team number
