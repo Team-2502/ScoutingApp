@@ -21,7 +21,21 @@ public interface Database {
 	 * @param regional the regional
 	 * @param callback the callback that will be given the data
 	 */
-	public void requestTeamData(Team team, String regional, final DatabaseCallback callback);
+	public void requestTeamData(Team team, String regional, DatabaseCallback callback);
+	
+	/**
+	 * Requests to get all match data for a team
+	 * @param team the team
+	 * @param callback the callback that will be given the data
+	 */
+	public void requestTeamData(Team team, DatabaseCallback callback);
+	
+	/**
+	 * Requests to get all match data at a regional
+	 * @param regional the regional
+	 * @param callback the callback that will be given the data
+	 */
+	public void requestRegionalData(String regional, DatabaseCallback callback);
 	
 	/**
 	 * Requests to get the first 100 rows of match data

@@ -11,6 +11,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
 
 public class WebDatabase implements Database {
@@ -70,9 +71,32 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				Map <String, Match> matches = getMatches(url);
 				if (callback != null)
-					callback.onMatchDataReceived(matches);
+					callback.onMatchDataReceived(getMatches(url));
+			}
+		});
+	}
+	
+	@Override
+	public void requestTeamData(Team team, final DatabaseCallback callback) {
+		final String url = HOST+"get_items.php?team="+team.getTeamNumber();
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+			@Override
+			public void run() {
+				if (callback != null)
+					callback.onMatchDataReceived(getMatches(url));
+			}
+		});
+	}
+	
+	@Override
+	public void requestRegionalData(String regional, final DatabaseCallback callback) {
+		final String url = HOST+"get_items.php?regional="+regional;
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+			@Override
+			public void run() {
+				if (callback != null)
+					callback.onMatchDataReceived(getMatches(url));
 			}
 		});
 	}
@@ -86,9 +110,8 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				Map <String, Match> matches = getMatches(url);
 				if (callback != null)
-					callback.onMatchDataReceived(matches);
+					callback.onMatchDataReceived(getMatches(url));
 			}
 		});
 	}
@@ -146,8 +169,8 @@ public class WebDatabase implements Database {
 		else if (gt == 'q') match.setGameType(GameType.QUALIFICATION);
 		else if (gt == 'e') match.setGameType(GameType.ELIMINATION);
 		else match.setGameType(GameType.INVALID);
-		match.setMatchNumber(parseIntSafe(columns[startIndex+3].substring(1)));
-		match.setRating(parseFloatSafe(columns[startIndex+4]));
+		match.setMatchNumber(Utilities.parseIntSafe(columns[startIndex+3].substring(1)));
+		match.setRating(Utilities.parseFloatSafe(columns[startIndex+4]));
 		match.setNotes(columns[startIndex+5]);
 		return startIndex + 6;
 	}
@@ -161,15 +184,15 @@ public class WebDatabase implements Database {
 	}
 	
 	private int parseMatchTeleop(Match match, String [] columns, int startIndex) {
-		match.setOffGround(parseIntSafe(columns[startIndex+0]));
-		match.setAssistsStarted(parseIntSafe(columns[startIndex+1]));
-		match.setAssistsReceived(parseIntSafe(columns[startIndex+2]));
-		match.setSecAssistsStarted(parseIntSafe(columns[startIndex+3]));
-		match.setSecAssistsReceived(parseIntSafe(columns[startIndex+4]));
-		match.setScoredLow(parseIntSafe(columns[startIndex+5]));
-		match.setScoredHigh(parseIntSafe(columns[startIndex+6]));
-		match.setOverTruss(parseIntSafe(columns[startIndex+7]));
-		match.setFromTruss(parseIntSafe(columns[startIndex+8]));
+		match.setOffGround(Utilities.parseIntSafe(columns[startIndex+0]));
+		match.setAssistsStarted(Utilities.parseIntSafe(columns[startIndex+1]));
+		match.setAssistsReceived(Utilities.parseIntSafe(columns[startIndex+2]));
+		match.setSecAssistsStarted(Utilities.parseIntSafe(columns[startIndex+3]));
+		match.setSecAssistsReceived(Utilities.parseIntSafe(columns[startIndex+4]));
+		match.setScoredLow(Utilities.parseIntSafe(columns[startIndex+5]));
+		match.setScoredHigh(Utilities.parseIntSafe(columns[startIndex+6]));
+		match.setOverTruss(Utilities.parseIntSafe(columns[startIndex+7]));
+		match.setFromTruss(Utilities.parseIntSafe(columns[startIndex+8]));
 		return startIndex + 9;
 	}
 	
@@ -181,22 +204,6 @@ public class WebDatabase implements Database {
 		match.setDefense(columns[startIndex+4].equalsIgnoreCase("1"));
 		match.setBroken(columns[startIndex+5].equalsIgnoreCase("1"));
 		return startIndex + 6;
-	}
-	
-	private int parseIntSafe(String str) {
-		try {
-			return Integer.parseInt(str);
-		} catch (NumberFormatException e) {
-			return 0;
-		}
-	}
-	
-	private float parseFloatSafe(String str) {
-		try {
-			return Float.parseFloat(str);
-		} catch (NumberFormatException e) {
-			return 0;
-		}
 	}
 	
 }
