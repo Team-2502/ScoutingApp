@@ -15,7 +15,7 @@ import android.util.Log;
 
 public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	
-	private static final boolean deleteOnStart = true;
+	private static final boolean deleteOnStart = false;
 	
 	// Matches Table
 	private static final String MATCH_TABLE = "cars";
@@ -71,7 +71,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 			MATCH_STRATEGY_DEFENSE_COLUMN + " INT, " + 
 			MATCH_STRATEGY_BROKEN_COLUMN + " INT" + 
 			")";
-	private static final String START_MATCH_SELECT_QUERY = "SELECT " + 
+	private static final String COLUMN_LIST = 
 				MATCH_TIMESTAMP_COLUMN + ", " + MATCH_REGIONAL_COLUMN + ", " + 
 				MATCH_TEAM_NUMBER_COLUMN + ", " + MATCH_MATCH_NUMBER_COLUMN + ", " + 
 				MATCH_OVERALL_RATING_COLUMN + ", " + MATCH_NOTES_COLUMN + ", " + 
@@ -85,8 +85,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 				MATCH_TELEOP_THROW_TRUSS_COLUMN + ", " + MATCH_TELEOP_CATCH_TRUSS_COLUMN + ", " + 
 				MATCH_STRATEGY_GOAL_COLUMN + ", " + MATCH_STRATEGY_PASSER_COLUMN + ", " + 
 				MATCH_STRATEGY_CATCHER_COLUMN + ", " + MATCH_STRATEGY_LAUNCHER_COLUMN + ", " + 
-				MATCH_STRATEGY_DEFENSE_COLUMN + ", " + MATCH_STRATEGY_BROKEN_COLUMN + 
-				" FROM " + MATCH_TABLE;
+				MATCH_STRATEGY_DEFENSE_COLUMN + ", " + MATCH_STRATEGY_BROKEN_COLUMN;
 	
 	public LocalDatabase(Context context) {
 		super(context, "matches.db", null, 1);
@@ -121,7 +120,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	}
 	
 	public Map <String, Match> getTeamData(Team team, String regional) {
-		String query = START_MATCH_SELECT_QUERY+" WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ? AND "+MATCH_REGIONAL_COLUMN+"= ?";
+		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ? AND "+MATCH_REGIONAL_COLUMN+"= ?";
 		String [] args = new String[]{Integer.toString(team.getTeamNumber()), regional};
 		return getAllMatches(query, args);
 	}
@@ -133,7 +132,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	}
 	
 	public Map <String, Match> getRegionalData(String regional) {
-		String query = START_MATCH_SELECT_QUERY + " WHERE "+MATCH_REGIONAL_COLUMN+"= ?";
+		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_REGIONAL_COLUMN+"= ?";
 		return getAllMatches(query, new String[]{regional});
 	}
 	
@@ -144,7 +143,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	}
 	
 	public Map <String, Match> getTeamData(Team team) {
-		String query = START_MATCH_SELECT_QUERY + " WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ?";
+		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ?";
 		String [] args = new String[]{Integer.toString(team.getTeamNumber())};
 		return getAllMatches(query, args);
 	}
@@ -162,29 +161,15 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	
 	@Override
 	public void requestRows(int start, int end, DatabaseCallback callback) {
-		String query = START_MATCH_SELECT_QUERY + " LIMIT " + start + "," + end;
+		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" LIMIT " + start + "," + end;
 		Map <String, Match> matches = getAllMatches(query, new String[]{});
 		if (callback != null)
 			callback.onMatchDataReceived(matches);
 	}
 	
 	private boolean addMatch(Match match) {
-		String query = "INSERT INTO " + MATCH_TABLE + "(" + 
-				MATCH_TIMESTAMP_COLUMN + ", " + MATCH_REGIONAL_COLUMN + ", " + 
-				MATCH_TEAM_NUMBER_COLUMN + ", " + MATCH_MATCH_NUMBER_COLUMN + ", " + 
-				MATCH_OVERALL_RATING_COLUMN + ", " + MATCH_NOTES_COLUMN + ", " + 
-				MATCH_AUTO_MOVED_COLUMN + ", " + MATCH_AUTO_SCORED_LOW_COLUMN + ", " + 
-				MATCH_AUTO_SCORED_HIGH_COLUMN + ", " + MATCH_AUTO_SCORED_HOT_COLUMN + ", " + 
-				MATCH_TELEOP_PICK_UP_COLUMN + ", " + MATCH_TELEOP_ASSIST_INITIALIZED_COLUMN + ", " + 
-				MATCH_TELEOP_ASSIST_ACQUIRED_COLUMN + ", " + 
-				MATCH_TELEOP_SECOND_ASSIST_INITIALIZED_COLUMN + ", " + 
-				MATCH_TELEOP_SECOND_ASSIST_ACQUIRED_COLUMN + ", " + 
-				MATCH_TELEOP_SCORED_LOW_COLUMN + ", " + MATCH_TELEOP_SCORED_HIGH_COLUMN + ", " + 
-				MATCH_TELEOP_THROW_TRUSS_COLUMN + ", " + MATCH_TELEOP_CATCH_TRUSS_COLUMN + ", " + 
-				MATCH_STRATEGY_GOAL_COLUMN + ", " + MATCH_STRATEGY_PASSER_COLUMN + ", " + 
-				MATCH_STRATEGY_CATCHER_COLUMN + ", " + MATCH_STRATEGY_LAUNCHER_COLUMN + ", " + 
-				MATCH_STRATEGY_DEFENSE_COLUMN + ", " + MATCH_STRATEGY_BROKEN_COLUMN + 
-				") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO " + MATCH_TABLE + "(" + COLUMN_LIST + ")" + 
+				" VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		SQLiteDatabase db = getWritableDatabase();
 		SQLiteStatement ins = db.compileStatement(query);
 		ins.clearBindings();
