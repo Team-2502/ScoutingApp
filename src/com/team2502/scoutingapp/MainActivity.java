@@ -50,11 +50,6 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		actionBar.addTab(actionBar.newTab().setText(R.string.autonomous).setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.teleop).setTabListener(this));
 		actionBar.addTab(actionBar.newTab().setText(R.string.finalize).setTabListener(this));
-		Match m = new Match();
-		m.setTeam(new Team(2502));
-		m.setGameType(GameType.ELIMINATION);
-		m.setNotes("");
-		new WebDatabase().addMatchData(m);
 	}
 
 	@Override
