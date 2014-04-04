@@ -1,6 +1,7 @@
 package com.team2502.scoutingapp;
 
 import java.util.ArrayList;
+import java.util.concurrent.Executors;
 
 import com.team2502.scoutingapp.data.DatabaseCallback;
 import com.team2502.scoutingapp.data.Match;
@@ -9,6 +10,10 @@ import com.team2502.scoutingapp.data.WebDatabase;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Looper;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
@@ -17,16 +22,20 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-public class TeamStatsActivity extends Activity implements DatabaseCallback, OnItemSelectedListener, OnEditorActionListener {
+public class TeamStatsActivity extends Activity implements DatabaseCallback, OnItemSelectedListener, TextWatcher {
 	
 	private WebDatabase database;
 	private Team team;
 	private ArrayList <Match> matches;
+	private ArrayList <String> regionals;
 	
+	private ArrayAdapter<String> regionalAdapter;
+	private ProgressBar teamLoading;
 	private Spinner regionalSpinner;
 	private EditText teamSelector;
 	
@@ -35,19 +44,8 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	private TextView worldwideAutonomousAverage;
 	private TextView worldwideTeleoperatedAverage;
 	
-	private TextView regionalGoalie;
-	private TextView regionalPasser;
-	private TextView regionalCatcher;
-	private TextView regionalLauncher;
-	private TextView regionalDefense;
-	private TextView regionalBroken;
-	
-	private TextView worldwideGoalie;
-	private TextView worldwidePasser;
-	private TextView worldwideCatcher;
-	private TextView worldwideLauncher;
-	private TextView worldwideDefense;
-	private TextView worldwideBroken;
+	private TextView [] regionalStrategiesTextView;
+	private TextView [] worldwideStrategiesTextView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -59,29 +57,36 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		this.team = new Team(team);
 		database.requestTeamData(this.team, this);
 		
+		regionals = new ArrayList<String>();
+		regionalAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, regionals);
+		teamLoading = (ProgressBar)findViewById(R.id.team_loading_progress);
+		teamLoading.setVisibility(View.VISIBLE);
 		regionalSpinner = (Spinner)findViewById(R.id.regionalSelector);
 		regionalSpinner.setOnItemSelectedListener(this);
+		regionalSpinner.setAdapter(regionalAdapter);
 		teamSelector = (EditText)findViewById(R.id.team_selection);
-		teamSelector.setOnEditorActionListener(this);
+		teamSelector.addTextChangedListener(this);
 		
 		regionalAutonomousAverage = (TextView)findViewById(R.id.regional_autonomous_average);
 		regionalTeleoperatedAverage = (TextView)findViewById(R.id.regional_teleoperated_average);
 		worldwideAutonomousAverage = (TextView)findViewById(R.id.worldwide_autonomous_average);
 		worldwideTeleoperatedAverage = (TextView)findViewById(R.id.worldwide_teleoperated_average);
 		
-		regionalGoalie = (TextView)findViewById(R.id.regional_strategy_goal);
-		regionalPasser = (TextView)findViewById(R.id.regional_strategy_passer);
-		regionalCatcher = (TextView)findViewById(R.id.regional_strategy_catcher);
-		regionalLauncher = (TextView)findViewById(R.id.regional_strategy_launcher);
-		regionalDefense = (TextView)findViewById(R.id.regional_strategy_defense);
-		regionalBroken = (TextView)findViewById(R.id.regional_strategy_broken);
-
-		worldwideGoalie = (TextView)findViewById(R.id.worldwide_strategy_goal);
-		worldwidePasser = (TextView)findViewById(R.id.worldwide_strategy_passer);
-		worldwideCatcher = (TextView)findViewById(R.id.worldwide_strategy_catcher);
-		worldwideLauncher = (TextView)findViewById(R.id.worldwide_strategy_launcher);
-		worldwideDefense = (TextView)findViewById(R.id.worldwide_strategy_defense);
-		worldwideBroken = (TextView)findViewById(R.id.worldwide_strategy_broken);
+		regionalStrategiesTextView = new TextView[6];
+		regionalStrategiesTextView[0] = (TextView)findViewById(R.id.regional_strategy_goal);
+		regionalStrategiesTextView[1] = (TextView)findViewById(R.id.regional_strategy_passer);
+		regionalStrategiesTextView[2] = (TextView)findViewById(R.id.regional_strategy_catcher);
+		regionalStrategiesTextView[3] = (TextView)findViewById(R.id.regional_strategy_launcher);
+		regionalStrategiesTextView[4] = (TextView)findViewById(R.id.regional_strategy_defense);
+		regionalStrategiesTextView[5] = (TextView)findViewById(R.id.regional_strategy_broken);
+		
+		worldwideStrategiesTextView = new TextView[6];
+		worldwideStrategiesTextView[0] = (TextView)findViewById(R.id.worldwide_strategy_goal);
+		worldwideStrategiesTextView[1] = (TextView)findViewById(R.id.worldwide_strategy_passer);
+		worldwideStrategiesTextView[2] = (TextView)findViewById(R.id.worldwide_strategy_catcher);
+		worldwideStrategiesTextView[3] = (TextView)findViewById(R.id.worldwide_strategy_launcher);
+		worldwideStrategiesTextView[4] = (TextView)findViewById(R.id.worldwide_strategy_defense);
+		worldwideStrategiesTextView[5] = (TextView)findViewById(R.id.worldwide_strategy_broken);
 		
 		teamSelector.setText(Integer.toString(team));
 	}
@@ -89,7 +94,11 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	@Override
 	public void onMatchDataReceived(ArrayList<Match> matches) {
 		this.matches = matches;
-		setStrategies();
+		runOnUiThread(new Runnable() { public void run() { teamLoading.setVisibility(View.INVISIBLE); }});
+		if (matches.size() == 0)
+			resetAllSafe();
+		else
+			setStrategies();
 	}
 	
 	@Override
@@ -98,11 +107,11 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	}
 	
 	private void setStrategies() {
-		ArrayList <String> regionals = new ArrayList<String>();
 		double [] worldwideStrategies = new double[6];
 		double autoAverage = 0;
 		double teleopAverage = 0;
 		int worldwideMatches = 0;
+		regionals.clear();
 		for (Match m : matches) {
 			if (!regionals.contains(m.getRegional()))
 				regionals.add(m.getRegional());
@@ -125,16 +134,11 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		final double [] fWorldwideStrategies = worldwideStrategies;
 		runOnUiThread(new Runnable() {
 			public void run() {
-				ArrayAdapter<String> aa = new ArrayAdapter<String>(TeamStatsActivity.this, android.R.layout.simple_spinner_item, fRegionals);
-				regionalSpinner.setAdapter(aa);
+				regionalAdapter.notifyDataSetChanged();
 				worldwideAutonomousAverage.setText(String.format("%.1f pts", fAutoAverage));
 				worldwideTeleoperatedAverage.setText(String.format("%.1f pts", fTeleopAverage));
-				worldwideGoalie.setText(String.format("%.0f%%", fWorldwideStrategies[0]*100));
-				worldwidePasser.setText(String.format("%.0f%%", fWorldwideStrategies[1]*100));
-				worldwideCatcher.setText(String.format("%.0f%%", fWorldwideStrategies[2]*100));
-				worldwideLauncher.setText(String.format("%.0f%%", fWorldwideStrategies[3]*100));
-				worldwideDefense.setText(String.format("%.0f%%", fWorldwideStrategies[4]*100));
-				worldwideBroken.setText(String.format("%.0f%%", fWorldwideStrategies[5]*100));
+				for (int i = 0; i < 6; i++)
+					worldwideStrategiesTextView[i].setText(String.format("%.0f%%", fWorldwideStrategies[i]*100));
 			}
 		});
 	}
@@ -146,25 +150,32 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		regionalGoalie.setText("0%");
-		regionalPasser.setText("0%");
-		regionalCatcher.setText("0%");
-		regionalLauncher.setText("0%");
-		regionalDefense.setText("0%");
-		regionalBroken.setText("0%");
+		for (int i = 0; i < 6; i++)
+			regionalStrategiesTextView[i].setText("0%");
+		regionalAutonomousAverage.setText("0 pts");
+		regionalTeleoperatedAverage.setText("0 pts");
 	}
 	
 	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		int team = Utilities.parseIntSafe(teamSelector.getText().toString());
-		if (team != 0 && team != this.team.getTeamNumber()) {
-			this.team.setTeamNumber(team);
-			database.requestTeamData(this.team, this);
-		} else
-			return false;
-		return true;
+	public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+		
 	}
-
+	
+	@Override
+	public void onTextChanged(CharSequence s, int start, int before, int count) {
+		
+	}
+	
+	@Override
+	public void afterTextChanged(Editable s) {
+		int team = Utilities.parseIntSafe(teamSelector.getText().toString());
+		if (team != 0 && team != TeamStatsActivity.this.team.getTeamNumber()) {
+			TeamStatsActivity.this.team.setTeamNumber(team);
+			teamLoading.setVisibility(View.VISIBLE);
+			database.requestTeamData(TeamStatsActivity.this.team, TeamStatsActivity.this);
+		}
+	}
+	
 	private void updateRegionalData(String regional) {
 		if (regional == null)
 			return;
@@ -197,14 +208,30 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 			public void run() {
 				regionalAutonomousAverage.setText(String.format("%.1f pts", fAutoAverage));
 				regionalTeleoperatedAverage.setText(String.format("%.1f pts", fTeleopAverage));
-				regionalGoalie.setText(String.format("%.0f%%", fRegionalStrategies[0]*100));
-				regionalPasser.setText(String.format("%.0f%%", fRegionalStrategies[1]*100));
-				regionalCatcher.setText(String.format("%.0f%%", fRegionalStrategies[2]*100));
-				regionalLauncher.setText(String.format("%.0f%%", fRegionalStrategies[3]*100));
-				regionalDefense.setText(String.format("%.0f%%", fRegionalStrategies[4]*100));
-				regionalBroken.setText(String.format("%.0f%%", fRegionalStrategies[5]*100));
+				for (int i = 0; i < 6; i++)
+					regionalStrategiesTextView[i].setText(String.format("%.0f%%", fRegionalStrategies[i]*100));
 			}
 		});
+	}
+	
+	private void resetAllSafe() {
+		if (Looper.getMainLooper().getThread() == Thread.currentThread())
+			resetAll();
+		else
+			runOnUiThread(new Runnable() { public void run() { resetAll(); }});
+	}
+	
+	private void resetAll() {
+		regionals.clear();
+		regionalAdapter.notifyDataSetChanged();
+		for (int i = 0; i < 6; i++) {
+			regionalStrategiesTextView[i].setText("0%");
+			worldwideStrategiesTextView[i].setText("0%");
+		}
+		regionalAutonomousAverage.setText("0 pts");
+		regionalTeleoperatedAverage.setText("0 pts");
+		worldwideAutonomousAverage.setText("0 pts");
+		worldwideTeleoperatedAverage.setText("0 pts");
 	}
 
 }

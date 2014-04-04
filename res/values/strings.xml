@@ -14,6 +14,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="moved">Moved</string>
+    <string name="auto_scored_hot">Scored Hot</string>
+    <string name="auto_scored_low">Scored Low</string>
     <string name="scored_hot">Scored Hot</string>
     <string name="scored_low">Scored Low</string>
     <string name="scored_high">Scored High</string>
@@ -36,6 +38,26 @@
     <string name="submit">Submit</string>
     <string name="reset">Reset</string>
     <string name="rating">Rating</string>
+    <string name="default_counter_value">0</string>
+    <string name="empty"></string>
+    <string name="regional_selector">Regional:</string>
+    <string name="regional_header">Regional</string>
+    <string name="select_team">Team</string>
+    <string name="regional_autonomous_average">Autonomous Average</string>
+    <string name="regional_autonomous_rank">Autonomous Rank</string>
+    <string name="regional_teleoperated_average">Teleoperated Average</string>
+    <string name="regional_teleoperated_rank">Teleoperated Rank</string>
+    <string name="worldwide_header">Worldwide</string>
+    <string name="worldwide_autonomous_average">Autonomous Average</string>
+    <string name="worldwide_autonomous_rank">Autonomous Rank</string>
+    <string name="worldwide_teleoperated_average">Teleoperated Average</string>
+    <string name="worldwide_teleoperated_rank">Teleoperated Rank</string>
+    <string name="team_stats_strategy_goal">Goalie</string>
+    <string name="team_stats_strategy_passer">Passer</string>
+    <string name="team_stats_strategy_catcher">Receiver</string>
+    <string name="team_stats_strategy_launcher">Truss</string>
+    <string name="team_stats_strategy_defense">Defense</string>
+    <string name="team_stats_strategy_broken">Broken</string>
     <string name="error_bad_fields">Error: Not All Fields Filled Correctly</string>
     <string-array name="gamemodes_array">
         <item>Practice</item>

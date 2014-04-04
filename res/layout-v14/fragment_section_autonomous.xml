@@ -113,26 +113,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/moved"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
-
-            <Switch
-                android:id="@+id/scoredLowSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/scored_low"
-                android:textOff="@string/no"
-                android:textOn="@string/yes" />
-
-            <Switch
-                android:id="@+id/scoredHighSwitch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/scored_high"
+                android:textAppearance="?android:attr/textAppearanceMedium" 
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
 
@@ -143,8 +124,81 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/scored_hot"
+                android:textAppearance="?android:attr/textAppearanceMedium" 
                 android:textOff="@string/no"
                 android:textOn="@string/yes" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                
+                <TextView
+                    android:id="@+id/scoredLow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_scored_low"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                
+                <Button
+                    android:id="@+id/addScoredLow"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/add_button_size"
+                    android:minWidth="@dimen/add_button_size"
+                    android:text="@string/add" />
+                
+                <EditText
+                    android:id="@+id/scoredLowCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:gravity="center_vertical|right"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:text="@string/default_counter_value" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+                
+                <TextView
+                    android:id="@+id/scoredHigh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/auto_scored_hot"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+                
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+                
+                <Button
+                    android:id="@+id/addScoredHigh"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/add_button_size"
+                    android:minWidth="@dimen/add_button_size"
+                    android:text="@string/add" />
+                
+                <EditText
+                    android:id="@+id/scoredHighCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="3"
+                    android:gravity="center_vertical|right"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:text="@string/default_counter_value" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

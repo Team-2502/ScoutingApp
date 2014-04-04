@@ -14,9 +14,9 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
-	        android:gravity="center_horizontal" >
-	        
-    	    <TextView 
+	        android:gravity="center_horizontal|center_vertical" >
+
+	        <TextView 
     	        android:layout_width="wrap_content"
     	        android:layout_height="wrap_content"
     	        android:text="@string/select_team"
@@ -31,6 +31,13 @@
     	        android:inputType="number"
     	        android:gravity="center_vertical|center_horizontal"
     	        android:minWidth="50dip" />
+    	    
+    	    <ProgressBar
+	            android:id="@+id/team_loading_progress"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            style="?android:attr/progressBarStyleSmall" />
+    	    
     	</LinearLayout>
 	    
 	    <TextView
