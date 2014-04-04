@@ -1,10 +1,10 @@
 package com.team2502.scoutingapp.data;
 
-import java.util.Map;
+import java.util.ArrayList;
 
 public interface DatabaseCallback {
 	
-	public void onMatchDataReceived(Map <String, Match> matches);
+	public void onMatchDataReceived(ArrayList <Match> matches);
 	public void onMatchDataAdded(Match match, boolean success);
 	
 }

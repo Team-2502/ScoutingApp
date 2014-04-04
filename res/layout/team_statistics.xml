@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="vertical"
+	    android:paddingLeft="5dip"
+	    android:paddingRight="5dip" >
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:gravity="center_horizontal" >
+	        
+    	    <TextView 
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:text="@string/select_team"
+    	        android:textAppearance="?android:attr/textAppearanceMedium"
+    	        android:gravity="center_vertical|center_horizontal" />
+    	    
+    	    <EditText
+    	        android:id="@+id/team_selection"
+    	        android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+    	        android:text="@string/empty"
+    	        android:inputType="number"
+    	        android:gravity="center_vertical|center_horizontal"
+    	        android:minWidth="50dip" />
+    	</LinearLayout>
+	    
+	    <TextView
+	        android:id="@+id/regionalSection"
+	        style="?android:attr/listSeparatorTextViewStyle"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/regional_header" />
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal" >
+	        
+	        <TextView
+	            android:id="@+id/regionalSelectorTextView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/regional_selector"
+	            android:gravity="center_vertical" />
+	        
+	        <Spinner 
+	            android:id="@+id/regionalSelector"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:gravity="center_vertical|left" />
+	        
+	     </LinearLayout>
+	     
+	    <!-- Autonomous Average -->
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dip"
+	        android:orientation="horizontal" >
+	        <TextView
+	            android:id="@+id/regional_autonomous_average_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/regional_autonomous_average"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|left"
+	            android:layout_weight="1" />
+	        <TextView
+	            android:id="@+id/regional_autonomous_average"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|right"
+	            android:layout_weight="1" />
+	     </LinearLayout>
+	    
+	    <!-- Teleoperated Average -->
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dip"
+	        android:layout_marginBottom="5dip"
+	        android:orientation="horizontal" >
+	        <TextView
+	            android:id="@+id/regional_teleoperated_average_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/regional_teleoperated_average"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|left"
+	            android:layout_weight="1" />
+	        <TextView
+	            android:id="@+id/regional_teleoperated_average"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|right"
+	            android:layout_weight="1" />
+	     </LinearLayout>
+	     
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:weightSum="6" >
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_goal"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_passer" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_catcher" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_launcher" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_defense" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_broken" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:layout_marginBottom="5dip"
+	        android:weightSum="6" >
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_goal"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_passer"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_catcher"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_launcher"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_defense"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/regional_strategy_broken"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	    </LinearLayout>
+	    
+	    <!-- 
+	    
+	    
+	    ///////////////////////////////////////////////////////////////////////////////////////////////////
+	    
+	    
+	     -->
+	    
+	    <TextView
+	        android:id="@+id/worldwideSection"
+	        style="?android:attr/listSeparatorTextViewStyle"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/worldwide_header" />
+	    
+	    <!-- Autonomous Average -->
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dip"
+	        android:orientation="horizontal" >
+	        <TextView
+	            android:id="@+id/worldwide_autonomous_average_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/worldwide_autonomous_average"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|left"
+	            android:layout_weight="1" />
+	        <TextView
+	            android:id="@+id/worldwide_autonomous_average"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|right"
+	            android:layout_weight="1" />
+	     </LinearLayout>
+	    
+	    <!-- Teleoperated Average -->
+	    <LinearLayout 
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="5dip"
+	        android:layout_marginBottom="5dip"
+	        android:orientation="horizontal" >
+	        <TextView
+	            android:id="@+id/worldwide_teleoperated_average_text"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/worldwide_teleoperated_average"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|left"
+	            android:layout_weight="1" />
+	        <TextView
+	            android:id="@+id/worldwide_teleoperated_average"
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceMedium"
+	            android:gravity="center_vertical|right"
+	            android:layout_weight="1" />
+	     </LinearLayout>
+	     
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:weightSum="6" >
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_goal"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_passer" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_catcher" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_launcher" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_defense" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/team_stats_strategy_broken" 
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	    </LinearLayout>
+	    
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+	        android:weightSum="6" >
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_goal"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_passer"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_catcher"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_launcher"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_defense"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	        <TextView
+	            android:id="@+id/worldwide_strategy_broken"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:text="@string/empty"
+	            android:textAppearance="?android:attr/textAppearanceSmall"
+	            android:gravity="center_horizontal|center_vertical" />
+	        
+	    </LinearLayout>
+	    
+	</LinearLayout>
+</ScrollView>

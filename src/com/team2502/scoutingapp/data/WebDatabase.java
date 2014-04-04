@@ -3,9 +3,8 @@ package com.team2502.scoutingapp.data;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -33,15 +32,15 @@ public class WebDatabase implements Database {
 			@Override
 			public void run() {
 				String url = HOST + "add_item.php?";
-				url += "timestamp=" + match.getEntryTimestamp();
+				url += "timestamp=" + match.getEntryTimestamp().replace(" ", "%20");
 				url += "&regional=" + match.getRegional();
 				url += "&team_number=" + match.getTeam().getTeamNumber();
 				url += "&match_number=" + match.getGameType().getShortName() + match.getMatchNumber();
 				url += "&overall_rating=" + match.getRating();
 				url += "&notes=" + match.getNotes();
 				url += "&auto_moved=" + (match.isAutoMoved()?"1":"0");
-				url += "&auto_scored_low=" + (match.isAutoScoredLow()?"1":"0");
-				url += "&auto_scored_high=" + (match.isAutoScoredHigh()?"1":"0");
+				url += "&auto_scored_low=" + match.getAutoScoredLow();
+				url += "&auto_scored_high=" + match.getAutoScoredHigh();
 				url += "&auto_scored_hot=" + (match.isAutoScoredHot()?"1":"0");
 				url += "&teleop_pick_up=" + match.getOffGround();
 				url += "&teleop_assist_initialized=" + match.getAssistsStarted();
@@ -116,17 +115,15 @@ public class WebDatabase implements Database {
 		});
 	}
 	
-	private Map <String, Match> getMatches(String url) {
-		String data = getWebsiteData(url);
+	private ArrayList <Match> getMatches(String url) {
+		String data = getWebsiteData(url.replace(" ", "%20"));
 		String [] entries = data.split("\n");
-		Map <String, Match> matches = new HashMap<String, Match>();
+		ArrayList <Match> matches = new ArrayList<Match>();
 		for (int i = 1; i < entries.length; i++) {
 			String [] columns = entries[i].split(",");
 			if (columns.length < 25)
 				continue;
-			Match m = parseMatch(columns);
-			String matchID = "T"+m.getTeam().getTeamNumber()+m.getGameType().getShortName()+m.getMatchNumber();
-			matches.put(matchID, m);
+			matches.add(parseMatch(columns));
 		}
 		return matches;
 	}
@@ -177,8 +174,8 @@ public class WebDatabase implements Database {
 	
 	private int parseMatchAuto(Match match, String [] columns, int startIndex) {
 		match.setAutoMoved(columns[startIndex+0].equalsIgnoreCase("1"));
-		match.setAutoScoredLow(columns[startIndex+1].equalsIgnoreCase("1"));
-		match.setAutoScoredHigh(columns[startIndex+2].equalsIgnoreCase("1"));
+		match.setAutoScoredLow(Utilities.parseIntSafe(columns[startIndex+1]));
+		match.setAutoScoredHigh(Utilities.parseIntSafe(columns[startIndex+2]));
 		match.setAutoScoredHot(columns[startIndex+3].equalsIgnoreCase("1"));
 		return startIndex + 4;
 	}

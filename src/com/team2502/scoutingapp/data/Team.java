@@ -30,4 +30,25 @@ public class Team {
 		this.teamNumber = teamNumber;
 	}
 	
+	@Override
+	public String toString() {
+		return "Team #" + teamNumber;
+	}
+	
+	@Override
+	public int hashCode() {
+		return teamNumber;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null)
+			return false;
+		if (o instanceof Integer)
+			return teamNumber == (Integer)o;
+		if (o instanceof Team)
+			return teamNumber == ((Team)o).teamNumber;
+		return false;
+	}
+	
 }

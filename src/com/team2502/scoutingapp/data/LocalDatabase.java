@@ -1,8 +1,6 @@
 package com.team2502.scoutingapp.data;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import java.util.ArrayList;
 import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
 
@@ -15,7 +13,7 @@ import android.util.Log;
 
 public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	
-	private static final boolean deleteOnStart = false;
+	private static final boolean deleteOnStart = true;
 	
 	// Matches Table
 	private static final String MATCH_TABLE = "cars";
@@ -119,7 +117,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 			callback.onMatchDataAdded(match, success);
 	}
 	
-	public Map <String, Match> getTeamData(Team team, String regional) {
+	public ArrayList <Match> getTeamData(Team team, String regional) {
 		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ? AND "+MATCH_REGIONAL_COLUMN+"= ?";
 		String [] args = new String[]{Integer.toString(team.getTeamNumber()), regional};
 		return getAllMatches(query, args);
@@ -131,7 +129,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 			callback.onMatchDataReceived(getTeamData(team, regional));
 	}
 	
-	public Map <String, Match> getRegionalData(String regional) {
+	public ArrayList <Match> getRegionalData(String regional) {
 		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_REGIONAL_COLUMN+"= ?";
 		return getAllMatches(query, new String[]{regional});
 	}
@@ -142,7 +140,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 			callback.onMatchDataReceived(getRegionalData(regional));
 	}
 	
-	public Map <String, Match> getTeamData(Team team) {
+	public ArrayList <Match> getTeamData(Team team) {
 		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" WHERE "+MATCH_TEAM_NUMBER_COLUMN+" = ?";
 		String [] args = new String[]{Integer.toString(team.getTeamNumber())};
 		return getAllMatches(query, args);
@@ -162,7 +160,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	@Override
 	public void requestRows(int start, int end, DatabaseCallback callback) {
 		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" LIMIT " + start + "," + end;
-		Map <String, Match> matches = getAllMatches(query, new String[]{});
+		ArrayList <Match> matches = getAllMatches(query, new String[]{});
 		if (callback != null)
 			callback.onMatchDataReceived(matches);
 	}
@@ -173,15 +171,15 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 		SQLiteDatabase db = getWritableDatabase();
 		SQLiteStatement ins = db.compileStatement(query);
 		ins.clearBindings();
-		ins.bindString(1, match.getEntryTimestamp());
-		ins.bindString(2, match.getRegional());
+		ins.bindString(1, match.getEntryTimestamp()==null?"":match.getEntryTimestamp());
+		ins.bindString(2, match.getRegional()==null?"":match.getRegional());
 		ins.bindLong(3, match.getTeam().getTeamNumber());
 		ins.bindString(4, match.getGameType().getShortName() + match.getMatchNumber());
 		ins.bindDouble(5, match.getRating());
 		ins.bindString(6, match.getNotes());
 		ins.bindLong(7, match.isAutoMoved()?1:0);
-		ins.bindLong(8, match.isAutoScoredLow()?1:0);
-		ins.bindLong(9, match.isAutoScoredHigh()?1:0);
+		ins.bindLong(8, match.getAutoScoredLow());
+		ins.bindLong(9, match.getAutoScoredHigh());
 		ins.bindLong(10, match.isAutoScoredHot()?1:0);
 		ins.bindLong(11, match.getOffGround());
 		ins.bindLong(12, match.getAssistsStarted());
@@ -203,8 +201,8 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 		return row != -1;
 	}
 	
-	private Map <String, Match> getAllMatches(String query, String [] args) {
-		Map <String, Match> matches = new HashMap<String, Match>();
+	private ArrayList <Match> getAllMatches(String query, String [] args) {
+		ArrayList <Match> matches = new ArrayList<Match>();
 		SQLiteDatabase db = getWritableDatabase();
 		Cursor cursor = db.rawQuery(query, args);
 		
@@ -224,8 +222,8 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 				match.setRating(cursor.getFloat(4));
 				match.setNotes(cursor.getString(5));
 				match.setAutoMoved(cursor.getInt(6)==1);
-				match.setAutoScoredLow(cursor.getInt(7)==1);
-				match.setAutoScoredHigh(cursor.getInt(8)==1);
+				match.setAutoScoredLow(cursor.getInt(7));
+				match.setAutoScoredHigh(cursor.getInt(8));
 				match.setAutoScoredHot(cursor.getInt(9)==1);
 				match.setOffGround(cursor.getInt(10));
 				match.setAssistsStarted(cursor.getInt(11));
@@ -244,7 +242,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 				match.setBroken(cursor.getInt(24)==1);
 				String matchID = "T"+match.getTeam().getTeamNumber()+match.getGameType().getShortName()+match.getMatchNumber();
 				Log.i("LocalDatabase", matchID);
-				matches.put(matchID, match);
+				matches.add(match);
 			} while (cursor.moveToNext());
 		}
 		cursor.close();

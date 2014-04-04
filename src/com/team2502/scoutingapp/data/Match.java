@@ -37,8 +37,8 @@ public class Match {
 	
 	//Autonomus
 	private boolean autoMoved;
-	private boolean autoScoredLow;
-	private boolean autoScoredHigh;
+	private int autoScoredLow;
+	private int autoScoredHigh;
 	private boolean autoScoredHot;
 
 	//Teleop
@@ -108,14 +108,14 @@ public class Match {
 	/**
 	 * @return true if scored in the low goal during autonomous period
 	 */
-	public boolean isAutoScoredLow() {
+	public int getAutoScoredLow() {
 		return autoScoredLow;
 	}
 
 	/**
 	 * @return true if scored in the high goal during autonomous period
 	 */
-	public boolean isAutoScoredHigh() {
+	public int getAutoScoredHigh() {
 		return autoScoredHigh;
 	}
 
@@ -292,14 +292,14 @@ public class Match {
 	/**
 	 * @param autoScoredLow the autoScoredLow to set
 	 */
-	public void setAutoScoredLow(boolean autoScoredLow) {
+	public void setAutoScoredLow(int autoScoredLow) {
 		this.autoScoredLow = autoScoredLow;
 	}
 
 	/**
 	 * @param autoScoredHigh the autoScoredHigh to set
 	 */
-	public void setAutoScoredHigh(boolean autoScoredHigh) {
+	public void setAutoScoredHigh(int autoScoredHigh) {
 		this.autoScoredHigh = autoScoredHigh;
 	}
 
@@ -448,6 +448,39 @@ public class Match {
 	public void setNotes(String notes) {
 		this.notes = notes;
 	}
+	
+	/**
+	 * Calculates the number of autonomous points scored
+	 * by this team during this match
+	 * @return the number of autonomous points scored
+	 */
+	public double getAutonomousPoints() {
+		double points = 0;
+		points += 6*getAutoScoredLow() + 15*getAutoScoredHigh();
+		if (isAutoScoredHot())
+			points += 5 * (getAutoScoredLow() + getAutoScoredHigh());
+		if (isAutoMoved())
+			points += 5;
+		return points;
+	}
+	
+	/**
+	 * Calculates the number of teleoperated points scored
+	 * by this team during this match
+	 * @return the number of teleoperated points scored
+	 */
+	public double getTeleoperatedPoints() {
+		double points = 0;
+		points += 10 * getOverTruss();
+		points += 10 * getFromTruss();
+		points += getScoredLow();
+		points += 10 * getScoredHigh();
+		points += 5 * getAssistsStarted();
+		points += 5 * getAssistsReceived();
+		points += 15 * getSecAssistsStarted();
+		points += 15 * getSecAssistsReceived();
+		return points;
+	}
 
 	/**
 	 * @return human-readable summary of the match
@@ -458,8 +491,8 @@ public class Match {
 		summary += "Match #: " + getMatchNumber() + "\n";
 		summary += "Match Type: " + getGameType() + "\n\n";
 		summary += "Moved: " + (isAutoMoved() ? "Yes" : "No") + "\n";
-		summary += "Scored Low: " + (isAutoScoredLow() ? "Yes" : "No") + "\n";
-		summary += "Scored High: " + (isAutoScoredHigh() ? "Yes" : "No") + "\n";
+		summary += "Scored Low: " + getAutoScoredLow() + "\n";
+		summary += "Scored High: " + getAutoScoredHigh() + "\n";
 		summary += "Scored Hot: " + (isAutoScoredHot() ? "Yes" : "No") + "\n\n";
 		summary += "Strategy: " + (isGoalie() ? "Goalie " : "") + (isPasser() ? "Passer " : "") + (isCatcher() ? "Catcher " : "") + (isLauncher() ? "Launcher " : "") + (isDefense() ? "Defense " : "") + (isBroken() ? "Broken " : "")  + "\n";
 		summary += "Picked Off Ground: " + getOffGround() + "\n";
