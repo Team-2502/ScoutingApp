@@ -8,7 +8,8 @@
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
 	    android:paddingLeft="5dip"
-	    android:paddingRight="5dip" >
+	    android:paddingRight="5dip"
+	    android:paddingBottom="10dip" >
 	    
 	    <LinearLayout
 	        android:layout_width="match_parent"
@@ -359,6 +360,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal"
+	        android:layout_marginBottom="5dip"
 	        android:weightSum="6" >
 	        
 	        <TextView
@@ -416,6 +418,25 @@
 	            android:gravity="center_horizontal|center_vertical" />
 	        
 	    </LinearLayout>
+	    
+	    <TextView
+	        android:id="@+id/previousMatchesSection"
+	        style="?android:attr/listSeparatorTextViewStyle"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:text="@string/previous_matches_header" />
+	    
+	    <HorizontalScrollView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content">
+	        
+            <TableLayout
+                android:id="@+id/previous_matches_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+	        
+	    </HorizontalScrollView>
+	    
 	    
 	</LinearLayout>
 </ScrollView>

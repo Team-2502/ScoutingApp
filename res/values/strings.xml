@@ -58,6 +58,7 @@
     <string name="team_stats_strategy_launcher">Truss</string>
     <string name="team_stats_strategy_defense">Defense</string>
     <string name="team_stats_strategy_broken">Broken</string>
+    <string name="previous_matches_header">Previous Matches</string>
     <string name="error_bad_fields">Error: Not All Fields Filled Correctly</string>
     <string-array name="gamemodes_array">
         <item>Practice</item>

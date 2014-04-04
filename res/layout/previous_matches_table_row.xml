@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:focusable="true"
+    android:focusableInTouchMode="false"
+    android:clickable="true"
+    android:background="@android:drawable/list_selector_background"
+    android:weightSum="12" >
+    
+    <TextView
+        android:id="@+id/previous_match_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="1"
+        android:text="@string/empty" />
+    
+    <TextView
+        android:id="@+id/previous_match_regional"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="3"
+        android:text="@string/empty" />
+    
+    <TextView
+        android:id="@+id/previous_match_autonomous"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="2"
+        android:text="@string/empty" />
+    
+    <TextView
+        android:id="@+id/previous_match_teleoperated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="2"
+        android:text="@string/empty" />
+    
+    <TextView
+        android:id="@+id/previous_match_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:layout_weight="2"
+        android:text="@string/empty" />
+    
+    <TextView
+        android:id="@+id/previous_match_notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dip"
+        android:layout_marginRight="5dip"
+        android:text="@string/empty" />
+    
+</TableRow>

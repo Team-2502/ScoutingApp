@@ -1,6 +1,9 @@
 package com.team2502.scoutingapp;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 
 import com.team2502.scoutingapp.data.DatabaseCallback;
@@ -9,6 +12,7 @@ import com.team2502.scoutingapp.data.Team;
 import com.team2502.scoutingapp.data.WebDatabase;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
 import android.text.Editable;
@@ -24,6 +28,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -38,6 +44,7 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	private ProgressBar teamLoading;
 	private Spinner regionalSpinner;
 	private EditText teamSelector;
+	private TableLayout previousMatchesTable;
 	
 	private TextView regionalAutonomousAverage;
 	private TextView regionalTeleoperatedAverage;
@@ -66,6 +73,7 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		regionalSpinner.setAdapter(regionalAdapter);
 		teamSelector = (EditText)findViewById(R.id.team_selection);
 		teamSelector.addTextChangedListener(this);
+		previousMatchesTable = (TableLayout)findViewById(R.id.previous_matches_table);
 		
 		regionalAutonomousAverage = (TextView)findViewById(R.id.regional_autonomous_average);
 		regionalTeleoperatedAverage = (TextView)findViewById(R.id.regional_teleoperated_average);
@@ -94,11 +102,15 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	@Override
 	public void onMatchDataReceived(ArrayList<Match> matches) {
 		this.matches = matches;
-		runOnUiThread(new Runnable() { public void run() { teamLoading.setVisibility(View.INVISIBLE); }});
-		if (matches.size() == 0)
-			resetAllSafe();
-		else
-			setStrategies();
+		runOnUiThread(new Runnable() {
+			public void run() {
+				teamLoading.setVisibility(View.INVISIBLE);
+				if (TeamStatsActivity.this.matches.size() == 0)
+					resetAll();
+				else
+					setStrategies();
+			}
+		});
 	}
 	
 	@Override
@@ -107,14 +119,18 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	}
 	
 	private void setStrategies() {
+		Collections.sort(matches, new RegionalComparison());
 		double [] worldwideStrategies = new double[6];
 		double autoAverage = 0;
 		double teleopAverage = 0;
 		int worldwideMatches = 0;
 		regionals.clear();
+		previousMatchesTable.removeAllViews();
+		addTableHeader();
 		for (Match m : matches) {
 			if (!regionals.contains(m.getRegional()))
 				regionals.add(m.getRegional());
+			addTableRow(m);
 			worldwideMatches++;
 			autoAverage += m.getAutonomousPoints();
 			teleopAverage += m.getTeleoperatedPoints();
@@ -128,19 +144,13 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		for (int i = 0; i < 6; i++) {
 			worldwideStrategies[i] /= worldwideMatches;
 		}
-		final double fAutoAverage = autoAverage / worldwideMatches;
-		final double fTeleopAverage = teleopAverage / worldwideMatches;
-		final ArrayList <String> fRegionals = regionals;
-		final double [] fWorldwideStrategies = worldwideStrategies;
-		runOnUiThread(new Runnable() {
-			public void run() {
-				regionalAdapter.notifyDataSetChanged();
-				worldwideAutonomousAverage.setText(String.format("%.1f pts", fAutoAverage));
-				worldwideTeleoperatedAverage.setText(String.format("%.1f pts", fTeleopAverage));
-				for (int i = 0; i < 6; i++)
-					worldwideStrategiesTextView[i].setText(String.format("%.0f%%", fWorldwideStrategies[i]*100));
-			}
-		});
+		autoAverage /= worldwideMatches;
+		teleopAverage /= worldwideMatches;
+		regionalAdapter.notifyDataSetChanged();
+		worldwideAutonomousAverage.setText(String.format("%.1f pts", autoAverage));
+		worldwideTeleoperatedAverage.setText(String.format("%.1f pts", teleopAverage));
+		for (int i = 0; i < 6; i++)
+			worldwideStrategiesTextView[i].setText(String.format("%.0f%%", worldwideStrategies[i]*100));
 	}
 	
 	@Override
@@ -201,24 +211,12 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 			if (regionalMatches > 0)
 				regionalStrategies[i] /= regionalMatches;
 		}
-		final double fAutoAverage = autoAverage / regionalMatches;
-		final double fTeleopAverage = teleopAverage / regionalMatches;
-		final double [] fRegionalStrategies = regionalStrategies;
-		runOnUiThread(new Runnable() {
-			public void run() {
-				regionalAutonomousAverage.setText(String.format("%.1f pts", fAutoAverage));
-				regionalTeleoperatedAverage.setText(String.format("%.1f pts", fTeleopAverage));
-				for (int i = 0; i < 6; i++)
-					regionalStrategiesTextView[i].setText(String.format("%.0f%%", fRegionalStrategies[i]*100));
-			}
-		});
-	}
-	
-	private void resetAllSafe() {
-		if (Looper.getMainLooper().getThread() == Thread.currentThread())
-			resetAll();
-		else
-			runOnUiThread(new Runnable() { public void run() { resetAll(); }});
+		autoAverage /= regionalMatches;
+		teleopAverage /= regionalMatches;
+		regionalAutonomousAverage.setText(String.format("%.1f pts", autoAverage));
+		regionalTeleoperatedAverage.setText(String.format("%.1f pts", teleopAverage));
+		for (int i = 0; i < 6; i++)
+			regionalStrategiesTextView[i].setText(String.format("%.0f%%", regionalStrategies[i]*100));
 	}
 	
 	private void resetAll() {
@@ -233,5 +231,44 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		worldwideAutonomousAverage.setText("0 pts");
 		worldwideTeleoperatedAverage.setText("0 pts");
 	}
-
+	
+	private void addTableHeader() {
+		addTableRow("Match", "Regional", "Auto", "Teleop", "Total", "Notes");
+	}
+	
+	private void addTableRow(Match m) {
+		String matchNumber = String.format(Locale.US, "%s%d", m.getGameType().getShortName(), m.getMatchNumber());
+		String autonomous = String.format(Locale.US, "%d", (int)m.getAutonomousPoints());
+		String teleoperated = String.format(Locale.US, "%d", (int)m.getTeleoperatedPoints());
+		String total = String.format(Locale.US, "%d", (int)(m.getAutonomousPoints() + m.getTeleoperatedPoints()));
+		addTableRow(matchNumber, m.getRegional().trim(), autonomous, teleoperated, total, m.getNotes().trim());
+	}
+	
+	private void addTableRow(String matchNumber, String regional, String autonomous, String teleoperated, String total, String notes) {
+		TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.previous_matches_table_row, null);
+		
+		((TextView)row.findViewById(R.id.previous_match_number)).setText(matchNumber);
+		((TextView)row.findViewById(R.id.previous_match_regional)).setText(regional);
+		((TextView)row.findViewById(R.id.previous_match_autonomous)).setText(autonomous);
+		((TextView)row.findViewById(R.id.previous_match_teleoperated)).setText(teleoperated);
+		((TextView)row.findViewById(R.id.previous_match_total)).setText(total);
+		((TextView)row.findViewById(R.id.previous_match_notes)).setText(notes);
+		// Draw separator
+		TextView tv = new TextView(this);
+		tv.setBackgroundColor(Color.parseColor("#80808080"));
+		tv.setHeight(2);
+		previousMatchesTable.addView(row);
+		previousMatchesTable.addView(tv);
+		
+		// If you use context menu it should be registered for each table row
+		registerForContextMenu(row);
+	}
+	
+	private class RegionalComparison implements Comparator<Match> {
+		@Override
+		public int compare(Match lhs, Match rhs) {
+			return lhs.getRegional().compareTo(rhs.getRegional());
+		}
+	}
+	
 }
