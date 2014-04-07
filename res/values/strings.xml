@@ -59,6 +59,8 @@
     <string name="team_stats_strategy_defense">Defense</string>
     <string name="team_stats_strategy_broken">Broken</string>
     <string name="previous_matches_header">Previous Matches</string>
+    <string name="menu_get_team_stats">Get Team Stats</string>
+    <string name="menu_get_team_ranking">Get Rankings</string>
     <string name="error_bad_fields">Error: Not All Fields Filled Correctly</string>
     <string-array name="gamemodes_array">
         <item>Practice</item>

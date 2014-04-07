@@ -13,10 +13,10 @@ import android.util.Log;
 
 public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	
-	private static final boolean deleteOnStart = true;
+	private static final boolean deleteOnStart = false;
 	
 	// Matches Table
-	private static final String MATCH_TABLE = "cars";
+	private static final String MATCH_TABLE = "matches";
 	private static final String MATCH_TIMESTAMP_COLUMN = "timestamp";
 	private static final String MATCH_REGIONAL_COLUMN = "regional";
 	private static final String MATCH_TEAM_NUMBER_COLUMN = "team_number";
@@ -95,6 +95,7 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 		}
 	}
 	
+	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_MATCH_TABLE);
 	}
@@ -103,6 +104,10 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL("DROP TABLE IF EXISTS " + MATCH_TABLE);
 		onCreate(db);
+	}
+	
+	public void open() {
+		getWritableDatabase();
 	}
 	
 	@Override
@@ -152,17 +157,15 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 			callback.onMatchDataReceived(getTeamData(team));
 	}
 	
-	@Override
-	public void requestRows(DatabaseCallback callback) {
-		requestRows(1, 100, callback);
+	public ArrayList <Match> getRows(int start, int limit) {
+		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" LIMIT " + start + "," + limit;
+		return getAllMatches(query, new String[]{});
 	}
 	
 	@Override
-	public void requestRows(int start, int end, DatabaseCallback callback) {
-		String query = "SELECT "+COLUMN_LIST+" FROM "+MATCH_TABLE+" LIMIT " + start + "," + end;
-		ArrayList <Match> matches = getAllMatches(query, new String[]{});
+	public void requestRows(int start, int limit, DatabaseCallback callback) {
 		if (callback != null)
-			callback.onMatchDataReceived(matches);
+			callback.onMatchDataReceived(getRows(start, limit));
 	}
 	
 	private boolean addMatch(Match match) {
@@ -241,7 +244,6 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 				match.setDefense(cursor.getInt(23)==1);
 				match.setBroken(cursor.getInt(24)==1);
 				String matchID = "T"+match.getTeam().getTeamNumber()+match.getGameType().getShortName()+match.getMatchNumber();
-				Log.i("LocalDatabase", matchID);
 				matches.add(match);
 			} while (cursor.moveToNext());
 		}

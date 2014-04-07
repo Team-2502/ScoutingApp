@@ -10,6 +10,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import android.util.Log;
+
 import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
 
@@ -64,58 +66,75 @@ public class WebDatabase implements Database {
 		});
 	}
 	
-	@Override
-	public void requestTeamData(Team team, String regional, final DatabaseCallback callback) {
+	public ArrayList<Match> getTeamData(Team team, String regional) {
 		final String url = HOST+"get_items.php?team="+team.getTeamNumber()+"&regional="+regional;
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-			@Override
-			public void run() {
-				if (callback != null)
-					callback.onMatchDataReceived(getMatches(url));
-			}
-		});
+		return getMatches(url);
 	}
 	
 	@Override
-	public void requestTeamData(Team team, final DatabaseCallback callback) {
-		final String url = HOST+"get_items.php?team="+team.getTeamNumber();
+	public void requestTeamData(final Team team, final String regional, final DatabaseCallback callback) {
+		if (callback == null)
+			return;
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				if (callback != null)
-					callback.onMatchDataReceived(getMatches(url));
+				callback.onMatchDataReceived(getTeamData(team, regional));
 			}
 		});
+	}
+	
+	public ArrayList<Match> getTeamData(Team team) {
+		String url = HOST+"get_items.php?team="+team.getTeamNumber();
+		return getMatches(url);
 	}
 	
 	@Override
-	public void requestRegionalData(String regional, final DatabaseCallback callback) {
-		final String url = HOST+"get_items.php?regional="+regional;
+	public void requestTeamData(final Team team, final DatabaseCallback callback) {
+		if (callback == null)
+			return;
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				if (callback != null)
-					callback.onMatchDataReceived(getMatches(url));
+				callback.onMatchDataReceived(getTeamData(team));
 			}
 		});
 	}
 	
-	public void requestRows(DatabaseCallback callback) {
-		requestRows(1, 100, callback);
+	public ArrayList<Match> getRegionalData(String regional) {
+		String url = HOST+"get_items.php?regional="+regional;
+		return getMatches(url);
 	}
 	
-	public void requestRows(final int start, final int end, final DatabaseCallback callback) {
-		final String url = HOST+"get_items.php?start="+(start-1)+"&end="+end;
+	@Override
+	public void requestRegionalData(final String regional, final DatabaseCallback callback) {
+		if (callback == null)
+			return;
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				if (callback != null)
-					callback.onMatchDataReceived(getMatches(url));
+				callback.onMatchDataReceived(getRegionalData(regional));
+			}
+		});
+	}
+	
+	public ArrayList<Match> getRows(int start, int limit) {
+		String url = HOST+"get_items.php?start="+(start-1)+"&limit="+limit;
+		return getMatches(url);
+	}
+	
+	public void requestRows(final int start, final int limit, final DatabaseCallback callback) {
+		if (callback == null)
+			return;
+		Executors.newSingleThreadExecutor().execute(new Runnable() {
+			@Override
+			public void run() {
+				callback.onMatchDataReceived(getRows(start, limit));
 			}
 		});
 	}
 	
 	private ArrayList <Match> getMatches(String url) {
+		Log.d("WebDatabase", "URL: " + url.replace(" ", "%20"));
 		String data = getWebsiteData(url.replace(" ", "%20"));
 		String [] entries = data.split("\n");
 		ArrayList <Match> matches = new ArrayList<Match>();

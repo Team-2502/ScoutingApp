@@ -96,6 +96,11 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 				startActivity(i);
 				return true;
 			}
+			case R.id.get_team_ranking: {
+				Intent i = new Intent(MainActivity.this, TeamRankingActivity.class);
+				startActivity(i);
+				return true;
+			}
 			default:
 				return super.onOptionsItemSelected(item);
 		}

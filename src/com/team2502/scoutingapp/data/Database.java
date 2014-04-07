@@ -38,17 +38,11 @@ public interface Database {
 	public void requestRegionalData(String regional, DatabaseCallback callback);
 	
 	/**
-	 * Requests to get the first 100 rows of match data
-	 * @param callback the callback that will be given the data
-	 */
-	public void requestRows(DatabaseCallback callback);
-	
-	/**
 	 * Requests to get a variable amount of rows of match data
 	 * @param start the starting row
-	 * @param end the ending row
+	 * @param limit the number of rows to grab
 	 * @param callback the callback that will be given the data
 	 */
-	public void requestRows(int start, int end, DatabaseCallback callback);
+	public void requestRows(int start, int limit, DatabaseCallback callback);
 	
 }
