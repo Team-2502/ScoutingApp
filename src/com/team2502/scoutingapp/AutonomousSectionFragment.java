@@ -13,7 +13,6 @@ import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.team2502.scoutingapp.R.id;
 import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Match.GameType;
 import com.team2502.scoutingapp.data.Team;

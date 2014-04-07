@@ -6,26 +6,19 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 
-import com.team2502.scoutingapp.data.LocalDatabase;
 import com.team2502.scoutingapp.data.LocalWebDatabase;
 import com.team2502.scoutingapp.data.Match;
-import com.team2502.scoutingapp.data.PreferencesDatabase;
 import com.team2502.scoutingapp.data.Team;
-import com.team2502.scoutingapp.data.WebDatabase;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TableLayout;

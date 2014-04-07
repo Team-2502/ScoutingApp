@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 public class LocalDatabase extends SQLiteOpenHelper implements Database {
 	
@@ -243,7 +242,6 @@ public class LocalDatabase extends SQLiteOpenHelper implements Database {
 				match.setLauncher(cursor.getInt(22)==1);
 				match.setDefense(cursor.getInt(23)==1);
 				match.setBroken(cursor.getInt(24)==1);
-				String matchID = "T"+match.getTeam().getTeamNumber()+match.getGameType().getShortName()+match.getMatchNumber();
 				matches.add(match);
 			} while (cursor.moveToNext());
 		}

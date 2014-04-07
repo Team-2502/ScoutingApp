@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
-import android.util.Log;
 
 public class PreferencesDatabase extends SQLiteOpenHelper {
 	
@@ -34,11 +33,9 @@ public class PreferencesDatabase extends SQLiteOpenHelper {
 	
 	@Override
 	public void onOpen(SQLiteDatabase db) {
-		Log.i("PreferencesDatabase", "Loading preferences");
 		Cursor cursor = db.rawQuery("SELECT * FROM " + PREFERENCES_TABLE, null);
 		if (cursor.moveToFirst()) {
 			do {
-				Log.i("PreferencesDatabase", "Preference: KEY=" + cursor.getString(0) + "  VALUE=" + cursor.getString(1));
 				preferences.put(cursor.getString(0), cursor.getString(1));
 			} while (cursor.moveToNext());
 		}
@@ -63,7 +60,6 @@ public class PreferencesDatabase extends SQLiteOpenHelper {
 	public boolean putPreference(String key, String value) {
 		SQLiteDatabase db = getWritableDatabase();
 		if (preferences.get(key) == null) {
-			Log.d("PreferencesDatabase", "NULL Preference");
 			SQLiteStatement stmt = db.compileStatement("INSERT INTO " + PREFERENCES_TABLE + " (key, value) VALUES (?, ?)");
 			stmt.bindString(1, key);
 			stmt.bindString(2, value);

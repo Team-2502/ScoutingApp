@@ -7,10 +7,9 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Executors;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-import android.util.Log;
 
 import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
@@ -59,14 +58,20 @@ public class WebDatabase implements Database {
 				url += "&strategy_launcher=" + (match.isLauncher()?"1":"0");
 				url += "&strategy_defense=" + (match.isDefense()?"1":"0");
 				url += "&strategy_broken=" + (match.isBroken()?"1":"0");
-				boolean success = getWebsiteData(url).toLowerCase(Locale.US).contains("success");
-				if (callback != null)
-					callback.onMatchDataAdded(match, success);
+				try {
+					boolean success = getWebsiteData(url).toLowerCase(Locale.US).contains("success");
+					if (callback != null)
+						callback.onMatchDataAdded(match, success);
+				} catch (ClientProtocolException e) {
+					callback.onDatabaseException(e);
+				} catch (IOException e) {
+					callback.onDatabaseException(e);
+				}
 			}
 		});
 	}
 	
-	public ArrayList<Match> getTeamData(Team team, String regional) {
+	public ArrayList<Match> getTeamData(Team team, String regional) throws ClientProtocolException, IOException {
 		final String url = HOST+"get_items.php?team="+team.getTeamNumber()+"&regional="+regional;
 		return getMatches(url);
 	}
@@ -78,12 +83,18 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				callback.onMatchDataReceived(getTeamData(team, regional));
+				try {
+					callback.onMatchDataReceived(getTeamData(team, regional));
+				} catch (ClientProtocolException e) {
+					callback.onDatabaseException(e);
+				} catch (IOException e) {
+					callback.onDatabaseException(e);
+				}
 			}
 		});
 	}
 	
-	public ArrayList<Match> getTeamData(Team team) {
+	public ArrayList<Match> getTeamData(Team team) throws ClientProtocolException, IOException {
 		String url = HOST+"get_items.php?team="+team.getTeamNumber();
 		return getMatches(url);
 	}
@@ -95,12 +106,18 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				callback.onMatchDataReceived(getTeamData(team));
+				try {
+					callback.onMatchDataReceived(getTeamData(team));
+				} catch (ClientProtocolException e) {
+					callback.onDatabaseException(e);
+				} catch (IOException e) {
+					callback.onDatabaseException(e);
+				}
 			}
 		});
 	}
 	
-	public ArrayList<Match> getRegionalData(String regional) {
+	public ArrayList<Match> getRegionalData(String regional) throws ClientProtocolException, IOException {
 		String url = HOST+"get_items.php?regional="+regional;
 		return getMatches(url);
 	}
@@ -112,12 +129,18 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				callback.onMatchDataReceived(getRegionalData(regional));
+				try {
+					callback.onMatchDataReceived(getRegionalData(regional));
+				} catch (ClientProtocolException e) {
+					callback.onDatabaseException(e);
+				} catch (IOException e) {
+					callback.onDatabaseException(e);
+				}
 			}
 		});
 	}
 	
-	public ArrayList<Match> getRows(int start, int limit) {
+	public ArrayList<Match> getRows(int start, int limit) throws ClientProtocolException, IOException {
 		String url = HOST+"get_items.php?start="+(start-1)+"&limit="+limit;
 		return getMatches(url);
 	}
@@ -128,16 +151,21 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				callback.onMatchDataReceived(getRows(start, limit));
+				try {
+					callback.onMatchDataReceived(getRows(start, limit));
+				} catch (ClientProtocolException e) {
+					callback.onDatabaseException(e);
+				} catch (IOException e) {
+					callback.onDatabaseException(e);
+				}
 			}
 		});
 	}
 	
-	private ArrayList <Match> getMatches(String url) {
-		Log.d("WebDatabase", "URL: " + url.replace(" ", "%20"));
+	private ArrayList <Match> getMatches(String url) throws ClientProtocolException, IOException {
 		String data = getWebsiteData(url.replace(" ", "%20"));
-		String [] entries = data.split("\n");
 		ArrayList <Match> matches = new ArrayList<Match>();
+		String [] entries = data.split("\n");
 		for (int i = 1; i < entries.length; i++) {
 			String [] columns = entries[i].split(",");
 			if (columns.length < 25)
@@ -147,23 +175,19 @@ public class WebDatabase implements Database {
 		return matches;
 	}
 	
-	private String getWebsiteData(String url) {
-		try {
-			DefaultHttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpget = new HttpGet(url);
-			HttpResponse response = httpclient.execute(httpget);
-			BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			StringBuffer sb = new StringBuffer("");
-			String line = "";
-			String NL = System.getProperty("line.separator");
-			while ((line = in.readLine()) != null) {
-				sb.append(line + NL);
-			}
-			in.close();
-			return sb.toString();
-		} catch (IOException e) {
-			return null;
+	private String getWebsiteData(String url) throws ClientProtocolException, IOException {
+		DefaultHttpClient httpclient = new DefaultHttpClient();
+		HttpGet httpget = new HttpGet(url);
+		HttpResponse response = httpclient.execute(httpget);
+		BufferedReader in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+		StringBuffer sb = new StringBuffer("");
+		String line = "";
+		String NL = System.getProperty("line.separator");
+		while ((line = in.readLine()) != null) {
+			sb.append(line + NL);
 		}
+		in.close();
+		return sb.toString();
 	}
 	
 	private Match parseMatch(String [] columns) {

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
-import java.util.concurrent.Executors;
-
 import com.team2502.scoutingapp.data.DatabaseCallback;
 import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Team;
@@ -14,15 +12,10 @@ import com.team2502.scoutingapp.data.WebDatabase;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -31,7 +24,6 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 public class TeamStatsActivity extends Activity implements DatabaseCallback, OnItemSelectedListener, TextWatcher {
 	
@@ -115,6 +107,11 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	
 	@Override
 	public void onMatchDataAdded(Match match, boolean success) {
+		
+	}
+	
+	@Override
+	public void onDatabaseException(Exception exception) {
 		
 	}
 	

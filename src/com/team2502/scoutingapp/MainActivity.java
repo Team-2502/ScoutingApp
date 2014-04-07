@@ -4,10 +4,8 @@ import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
-import com.team2502.scoutingapp.data.DatabaseCallback;
 import com.team2502.scoutingapp.data.LocalDatabase;
 import com.team2502.scoutingapp.data.Match;
-import com.team2502.scoutingapp.data.Team;
 import com.team2502.scoutingapp.data.WebDatabase;
 
 import android.app.AlertDialog;
@@ -20,7 +18,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
