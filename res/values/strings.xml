@@ -61,11 +61,32 @@
     <string name="previous_matches_header">Previous Matches</string>
     <string name="menu_get_team_stats">Get Team Stats</string>
     <string name="menu_get_team_ranking">Get Rankings</string>
+    <string name="menu_get_match_prediction">Match Predictions</string>
     <string name="error_bad_fields">Error: Not All Fields Filled Correctly</string>
     <string-array name="gamemodes_array">
         <item>Practice</item>
         <item>Qualification</item>
         <item>Elimination</item>
     </string-array>
-
+    
+    <!-- Match Prediction -->
+    <string name="red_predict_header">Red</string>
+    <string name="blue_predict_header">Blue</string>
+    <string name="red_1">Red 1</string>
+    <string name="red_2">Red 2</string>
+    <string name="red_3">Red 3</string>
+    <string name="blue_1">Blue 1</string>
+    <string name="blue_2">Blue 2</string>
+    <string name="blue_3">Blue 3</string>
+    <string name="red_1_points">Red 1 Points</string>
+    <string name="red_2_points">Red 2 Points</string>
+    <string name="red_3_points">Red 3 Points</string>
+    <string name="red_total_points">Total Red Points</string>
+    <string name="blue_1_points">Blue 1 Points</string>
+    <string name="blue_2_points">Blue 2 Points</string>
+    <string name="blue_3_points">Blue 3 Points</string>
+    <string name="blue_total_points">Total Blue Points</string>
+    <string name="predict">Predict</string>
+    <string name="reset_teams">Reset</string>
+    
 </resources>

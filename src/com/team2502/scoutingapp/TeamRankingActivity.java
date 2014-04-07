@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.concurrent.Executors;
 
 import com.team2502.scoutingapp.data.LocalDatabase;
+import com.team2502.scoutingapp.data.LocalWebDatabase;
 import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.PreferencesDatabase;
 import com.team2502.scoutingapp.data.Team;
@@ -33,10 +34,8 @@ import android.widget.TextView;
 
 public class TeamRankingActivity extends Activity implements OnClickListener, OnItemSelectedListener {
 	
-	private static final String LAST_ROW_DOWNLOADED_PREFERENCE = "last_row_downloaded";
-	private static ArrayList <TeamScore> teams = new ArrayList<TeamScore>();
-	private static ArrayList <Match> matches = new ArrayList<Match>();
-	private static int lastRowDownloaded = 1;
+	private ArrayList <TeamScore> teams = new ArrayList<TeamScore>();
+	private ArrayList <Match> matches = new ArrayList<Match>();
 	
 	private ArrayList<String> regionals;
 	private ArrayAdapter<String> regionalAdapter;
@@ -64,14 +63,6 @@ public class TeamRankingActivity extends Activity implements OnClickListener, On
 	@Override
 	public void onResume() {
 		super.onResume();
-		PreferencesDatabase db = new PreferencesDatabase(this);
-		db.open();
-		Log.i("TeamRankingActivity", "Preference: " + db.getPreference("last_row_downloaded"));
-		if (db.getPreference(LAST_ROW_DOWNLOADED_PREFERENCE) != null)
-			lastRowDownloaded = Integer.parseInt(db.getPreference(LAST_ROW_DOWNLOADED_PREFERENCE));
-		db.putPreference(LAST_ROW_DOWNLOADED_PREFERENCE, Integer.toString(lastRowDownloaded));
-		Log.i("TeamRankingActivity", "Last Row: " + lastRowDownloaded);
-		db.close();
 		updateData();
 	}
 	
@@ -124,8 +115,17 @@ public class TeamRankingActivity extends Activity implements OnClickListener, On
 			runOnUiThread(new Runnable() { public void run() {
 				teamLoading.setVisibility(View.VISIBLE);
 			}});
-			updateWithLocalData();
-			updateWithRemoteData();
+			LocalWebDatabase localWebData = new LocalWebDatabase(TeamRankingActivity.this);
+			localWebData.update();
+			matches = localWebData.getAllMatches();
+			synchronized (teams) {
+				teams.clear();
+				for (Match m : matches) {
+					matchAdded(m, "");
+				}
+				Collections.sort(teams, new ScoredComparison());
+			}
+			localWebData.close();
 			updateTable();
 		}});
 	}
@@ -139,85 +139,16 @@ public class TeamRankingActivity extends Activity implements OnClickListener, On
 		}
 		if (regionalFilter.length() == 0 || regionalFilter.equalsIgnoreCase(m.getRegional())) {
     		TeamScore ts = new TeamScore(m.getTeam());
-    		synchronized (teams) {
-        		int index = Collections.binarySearch(teams, ts);
-        		if (index < 0) {
-        			index = teams.size();
-        			ts.addMatch(m);
-        			teams.add(ts);
-        			Collections.sort(teams);
-        		} else {
-        			teams.get(index).addMatch(m);
-        		}
+    		int index = Collections.binarySearch(teams, ts);
+    		if (index < 0) {
+    			index = teams.size();
+    			ts.addMatch(m);
+    			teams.add(ts);
+    			Collections.sort(teams);
+    		} else {
+    			teams.get(index).addMatch(m);
     		}
 		}
-	}
-	
-	private void updateWithLocalData() {
-		Log.d("TeamRankingActivity", "Reading all saved data...");
-		final int LOCAL_ROW_INCREMENTS = 500;
-		int downloadedSize = 0;
-		int localRow = 1;
-		LocalDatabase localData = new LocalDatabase(TeamRankingActivity.this);
-		localData.open();
-		synchronized (teams) {
-    		teams.clear();
-		}
-		do {
-			Log.d("TeamRankingActivity", "Reading rows [" + localRow + ", " + (localRow+LOCAL_ROW_INCREMENTS + "]"));
-			ArrayList <Match> downloaded = localData.getRows(localRow, LOCAL_ROW_INCREMENTS);
-			synchronized (teams) {
-				Collections.sort(teams);
-			}
-			for (Match m : downloaded) {
-				matchAdded(m, "");
-			}
-			localRow += downloaded.size();
-			downloadedSize = downloaded.size();
-			matches.addAll(downloaded);
-			Log.d("TeamRankingActivity", "Read " + downloadedSize);
-		} while (downloadedSize == LOCAL_ROW_INCREMENTS);
-		localData.close();
-	}
-	
-	private void updateWithRemoteData() {
-		Log.d("TeamRankingActivity", "Requesting all data...");
-		final int ROW_INCREMENTS = 100;
-		int downloadedSize = 0;
-		LocalDatabase localData = new LocalDatabase(this);
-		WebDatabase webData = new WebDatabase();
-		localData.open();
-		do {
-			Log.d("TeamRankingActivity", "Requesting rows [" + lastRowDownloaded + ", " + (lastRowDownloaded+ROW_INCREMENTS + "]"));
-			ArrayList <Match> downloaded = webData.getRows(lastRowDownloaded, ROW_INCREMENTS);
-			synchronized (teams) {
-        		Collections.sort(teams);
-        		for (Match m : downloaded) {
-        			localData.addMatchData(m);
-        			TeamScore ts = new TeamScore(m.getTeam());
-        			int index = Collections.binarySearch(teams, ts);
-        			if (index < 0) {
-        				index = teams.size();
-        				ts.addMatch(m);
-        				teams.add(ts);
-        				Collections.sort(teams);
-        			} else {
-        				teams.get(index).addMatch(m);
-        			}
-        		}
-			}
-			lastRowDownloaded += downloaded.size();
-			downloadedSize = downloaded.size();
-			matches.addAll(downloaded);
-		} while (downloadedSize == ROW_INCREMENTS);
-		synchronized (teams) {
-			Collections.sort(teams, new ScoredComparison());
-		}
-		PreferencesDatabase db = new PreferencesDatabase(TeamRankingActivity.this);
-		db.open();
-		db.putPreference(LAST_ROW_DOWNLOADED_PREFERENCE, Integer.toString(lastRowDownloaded));
-		db.close();
-		localData.close();
 	}
 	
 	private void updateTable() {

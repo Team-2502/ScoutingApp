@@ -101,6 +101,11 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 				startActivity(i);
 				return true;
 			}
+			case R.id.get_match_prediction: {
+				Intent i = new Intent(MainActivity.this, MatchPredictionActivity.class);
+				startActivity(i);
+				return true;
+			}
 			default:
 				return super.onOptionsItemSelected(item);
 		}
