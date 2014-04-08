@@ -9,11 +9,17 @@ import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Team;
 import com.team2502.scoutingapp.data.WebDatabase;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -46,11 +52,16 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	private TextView [] regionalStrategiesTextView;
 	private TextView [] worldwideStrategiesTextView;
 	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.team_statistics);
 		int team = getIntent().getIntExtra("team", 0);
+		
+		if (Build.VERSION.SDK_INT >= 11) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 		
 		database = new WebDatabase();
 		this.team = new Team(team);
@@ -89,6 +100,21 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 		worldwideStrategiesTextView[5] = (TextView)findViewById(R.id.worldwide_strategy_broken);
 		
 		teamSelector.setText(Integer.toString(team));
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			Intent upIntent = new Intent(this, MainActivity.class);
+			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+				TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
+			} else {
+				NavUtils.navigateUpTo(this, upIntent);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

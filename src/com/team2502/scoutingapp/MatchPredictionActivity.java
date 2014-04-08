@@ -7,11 +7,17 @@ import com.team2502.scoutingapp.data.LocalWebDatabase;
 import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Team;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -43,10 +49,15 @@ public class MatchPredictionActivity extends Activity implements TextWatcher, On
 	
 	private Button reset;
 	
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.match_prediction);
+		
+		if (Build.VERSION.SDK_INT >= 11) {
+			getActionBar().setDisplayHomeAsUpEnabled(true);
+		}
 		
 		matches = new ArrayList<Match>();
 		
@@ -92,6 +103,21 @@ public class MatchPredictionActivity extends Activity implements TextWatcher, On
 	public void onPause() {
 		super.onPause();
 		matches.clear();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		if (id == android.R.id.home) {
+			Intent upIntent = new Intent(this, MainActivity.class);
+			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+				TaskStackBuilder.create(this).addNextIntentWithParentStack(upIntent).startActivities();
+			} else {
+				NavUtils.navigateUpTo(this, upIntent);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
