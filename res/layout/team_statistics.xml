@@ -31,7 +31,10 @@
     	        android:text="@string/empty"
     	        android:inputType="number"
     	        android:gravity="center_vertical|center_horizontal"
-    	        android:minWidth="50dip" />
+    	        android:minWidth="50dip"
+                android:maxLength="4"
+                android:maxEms="4"
+                android:minEms="3" />
     	    
     	    <ProgressBar
 	            android:id="@+id/team_loading_progress"
