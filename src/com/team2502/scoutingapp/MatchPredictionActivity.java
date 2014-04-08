@@ -210,19 +210,24 @@ public class MatchPredictionActivity extends Activity implements TextWatcher, On
 	
 	private void updateTextViews(final double red1, final double red2, final double red3, final double blue1, final double blue2, final double blue3) {
 		runOnUiThread(new Runnable() { public void run() {
+			double totalRed = red1+red2+red3;
+			double totalBlue = blue1+blue2+blue3;
 			red1Points.setText(String.format("%.0f", red1));
 			red2Points.setText(String.format("%.0f", red2));
 			red3Points.setText(String.format("%.0f", red3));
 			blue1Points.setText(String.format("%.0f", blue1));
 			blue2Points.setText(String.format("%.0f", blue2));
 			blue3Points.setText(String.format("%.0f", blue3));
-			redTotalPoints.setText(String.format("%.0f", red1+red2+red3));
-			blueTotalPoints.setText(String.format("%.0f", blue1+blue2+blue3));
+			redTotalPoints.setText(String.format("%.0f", totalRed));
+			blueTotalPoints.setText(String.format("%.0f", totalBlue));
 			redTotalPoints.setBackgroundColor(Color.TRANSPARENT);
 			blueTotalPoints.setBackgroundColor(Color.TRANSPARENT);
-			if (red1+red2+red3 > blue1+blue2+blue3)
+			if (totalRed > totalBlue)
 				redTotalPoints.setBackgroundColor(Color.GREEN);
-			else
+			else if (totalRed == totalBlue) {
+				redTotalPoints.setBackgroundColor(Color.YELLOW);
+				blueTotalPoints.setBackgroundColor(Color.YELLOW);
+			} else
 				blueTotalPoints.setBackgroundColor(Color.GREEN);
 		}});
 	}
