@@ -54,6 +54,7 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 	}
 	
 	public Match inputMatchData(Match match) {
+		match.setRegional(((EditText) getInflatedView().findViewById(R.id.eventName)).getEditableText().toString());
 		Team team = new Team();
 		team.setTeamNumber(Integer.parseInt(((EditText) getInflatedView().findViewById(R.id.teamNumber)).getEditableText().toString()));
 		match.setTeam(team);
