@@ -136,6 +136,23 @@ public class TeamRankingActivity extends Activity implements OnClickListener, On
 			LocalWebDatabase localWebData = new LocalWebDatabase(TeamRankingActivity.this);
 			localWebData.update();
 			matches = localWebData.getAllMatches();
+			for (int i = 0; i < matches.size(); i++) {
+				Match curMatch = matches.get(i);
+				for (int j = i+1; j < matches.size(); j++) {
+					Match lastMatch = matches.get(j);
+					if (curMatch.getTeam().getTeamNumber() == lastMatch.getTeam().getTeamNumber()) {
+						if (curMatch.getMatchNumber() == lastMatch.getMatchNumber()) {
+							if (curMatch.getGameType().compareTo(lastMatch.getGameType()) == 0) {
+								if (curMatch.getRegional().equalsIgnoreCase(lastMatch.getRegional())) {
+									matches.remove(j);
+									j--;
+									continue;
+								}
+							}
+						}
+					}
+				}
+			}
 			synchronized (teams) {
 				teams.clear();
 				for (Match m : matches) {

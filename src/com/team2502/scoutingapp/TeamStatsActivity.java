@@ -143,6 +143,23 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	
 	private void setStrategies() {
 		Collections.sort(matches, new RegionalComparison());
+		for (int i = 0; i < matches.size(); i++) {
+			Match curMatch = matches.get(i);
+			for (int j = i+1; j < matches.size(); j++) {
+				Match lastMatch = matches.get(j);
+				if (curMatch.getTeam().getTeamNumber() == lastMatch.getTeam().getTeamNumber()) {
+					if (curMatch.getMatchNumber() == lastMatch.getMatchNumber()) {
+						if (curMatch.getGameType().compareTo(lastMatch.getGameType()) == 0) {
+							if (curMatch.getRegional().equalsIgnoreCase(lastMatch.getRegional())) {
+								matches.remove(j);
+								j--;
+								continue;
+							}
+						}
+					}
+				}
+			}
+		}
 		double [] worldwideStrategies = new double[6];
 		double autoAverage = 0;
 		double teleopAverage = 0;
@@ -245,6 +262,9 @@ public class TeamStatsActivity extends Activity implements DatabaseCallback, OnI
 	private void resetAll() {
 		regionals.clear();
 		regionalAdapter.notifyDataSetChanged();
+		matches.clear();
+		previousMatchesTable.removeAllViews();
+		addTableHeader();
 		for (int i = 0; i < 6; i++) {
 			regionalStrategiesTextView[i].setText("0%");
 			worldwideStrategiesTextView[i].setText("0%");
