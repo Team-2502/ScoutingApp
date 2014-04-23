@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Checkable;
@@ -17,7 +19,7 @@ import com.team2502.scoutingapp.data.Match;
 import com.team2502.scoutingapp.data.Match.GameType;
 import com.team2502.scoutingapp.data.Team;
 
-public class AutonomousSectionFragment extends Fragment implements OnClickListener {
+public class AutonomousSectionFragment extends Fragment implements OnClickListener, OnItemSelectedListener {
 	private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
 	private View inflatedView;
 	
@@ -26,10 +28,15 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 		View view = inflater.inflate(R.layout.fragment_section_autonomous, container, false);
 		buttons.put(R.id.addScoredLow, (EditText) view.findViewById(R.id.scoredLowCount));
 		buttons.put(R.id.addScoredHigh, (EditText) view.findViewById(R.id.scoredHighCount));
-		Spinner spinner = (Spinner) view.findViewById(R.id.gametypeSelector);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.gamemodes_array, android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
+		Spinner gameTypeSpinner = (Spinner) view.findViewById(R.id.gametypeSelector);
+		ArrayAdapter<CharSequence> gameTypeAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.gamemodes_array, android.R.layout.simple_spinner_item);
+		gameTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		gameTypeSpinner.setAdapter(gameTypeAdapter);
+		Spinner competitionSpinner = (Spinner) view.findViewById(R.id.eventName);
+		ArrayAdapter<CharSequence> competitionAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.competitions, android.R.layout.simple_spinner_item);
+		competitionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		competitionSpinner.setAdapter(competitionAdapter);
+		competitionSpinner.setOnItemSelectedListener(this);
 		for(int i = 0; i < buttons.size(); i++) {
 			((Button) view.findViewById(buttons.keyAt(i))).setOnClickListener(this);
 		}
@@ -54,7 +61,12 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 	}
 	
 	public Match inputMatchData(Match match) {
-		match.setRegional(((EditText) getInflatedView().findViewById(R.id.eventName)).getEditableText().toString());
+		String [] competitions = getResources().getStringArray(R.array.competitions);
+		long competitionId = ((Spinner)getInflatedView().findViewById(R.id.eventName)).getSelectedItemId();
+		if (competitionId <= 0 || competitionId >= competitions.length)
+			return null;
+		String val = competitions[(int)competitionId];
+		match.setRegional(val);
 		Team team = new Team();
 		team.setTeamNumber(Integer.parseInt(((EditText) getInflatedView().findViewById(R.id.teamNumber)).getEditableText().toString()));
 		match.setTeam(team);
@@ -88,5 +100,14 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 		((Checkable) getInflatedView().findViewById(R.id.scoredHotSwitch)).setChecked(false);
 		((EditText) getInflatedView().findViewById(R.id.scoredLowCount)).setText(R.string.default_counter_value);
 		((EditText) getInflatedView().findViewById(R.id.scoredHighCount)).setText(R.string.default_counter_value);
+	}
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		
 	}
 }

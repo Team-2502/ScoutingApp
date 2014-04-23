@@ -70,6 +70,13 @@
         <item>Qualification</item>
         <item>Elimination</item>
     </string-array>
+    <string-array name="competitions">
+        <item value="-1">Competition</item>
+        <item>World Championships - Archimedes</item>
+        <item>World Championships - Curie</item>
+        <item>World Championships - Galileo</item>
+        <item>World Championships - Newton</item>
+    </string-array>
     
     <!-- Match Prediction -->
     <string name="red_predict_header">Red</string>

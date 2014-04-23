@@ -17,6 +17,7 @@ public final class R {
         public static final int abc_slide_out_top=0x7f040005;
     }
     public static final class array {
+        public static final int competitions=0x7f0c0001;
         public static final int gamemodes_array=0x7f0c0000;
     }
     public static final class attr {

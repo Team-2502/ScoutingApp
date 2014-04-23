@@ -116,9 +116,15 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		Match match = new Match();
 		try {
 			match.setNotes(((EditText)findViewById(R.id.notesBox)).getEditableText().toString());
-			autoView.inputMatchData(match);
-			teleopView.inputMatchData(match);
-			finalizeView.inputMatchData(match);
+			match = autoView.inputMatchData(match);
+			if (match == null)
+				throw new InvalidParameterException();
+			match = teleopView.inputMatchData(match);
+			if (match == null)
+				throw new InvalidParameterException();
+			match = finalizeView.inputMatchData(match);
+			if (match == null)
+				throw new InvalidParameterException();
 			matches.add(match);
 			onMatchSubmitted(match);
 		} catch (NumberFormatException e) {

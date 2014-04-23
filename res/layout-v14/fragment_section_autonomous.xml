@@ -9,12 +9,13 @@
         android:orientation="vertical"
         android:padding="16dp" >
 
-        <AutoCompleteTextView
+        <Spinner
             android:id="@+id/eventName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/event" />
+            android:layout_height="wrap_content" >
+
+            <requestFocus />
+        </Spinner>
 
         <LinearLayout
             android:layout_width="match_parent"
