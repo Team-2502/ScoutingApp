@@ -179,7 +179,7 @@
                     android:id="@+id/scoredHigh"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/auto_scored_hot"
+                    android:text="@string/auto_scored_high"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
                 
                 <View

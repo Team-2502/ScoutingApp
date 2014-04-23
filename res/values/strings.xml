@@ -17,6 +17,7 @@
     <string name="moved">Moved</string>
     <string name="auto_scored_hot">Scored Hot</string>
     <string name="auto_scored_low">Scored Low</string>
+    <string name="auto_scored_high">Scored High</string>
     <string name="scored_hot">Scored Hot</string>
     <string name="scored_low">Scored Low</string>
     <string name="scored_high">Scored High</string>
