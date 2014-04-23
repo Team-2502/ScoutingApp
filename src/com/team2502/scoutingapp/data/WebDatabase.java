@@ -13,8 +13,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.util.Log;
-
 import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
 
