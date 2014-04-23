@@ -193,7 +193,6 @@ public class WebDatabase implements Database {
 	
 	private String getWebsiteData(String file, String parameters) throws ClientProtocolException, IOException {
 		String url = HOST + file + "?" + parameters;
-		Log.d("WebDatabase", url);
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpclient.execute(httpget);
