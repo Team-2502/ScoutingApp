@@ -3,6 +3,8 @@ package com.team2502.scoutingapp.data;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Executors;
@@ -10,6 +12,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.util.Log;
 
 import com.team2502.scoutingapp.Utilities;
 import com.team2502.scoutingapp.data.Match.GameType;
@@ -32,34 +36,34 @@ public class WebDatabase implements Database {
 		Executors.newSingleThreadExecutor().execute(new Runnable() {
 			@Override
 			public void run() {
-				String url = HOST + "add_item.php?";
-				url += "timestamp=" + match.getEntryTimestamp().replace(" ", "%20");
-				url += "&regional=" + match.getRegional();
-				url += "&team_number=" + match.getTeam().getTeamNumber();
-				url += "&match_number=" + match.getGameType().getShortName() + match.getMatchNumber();
-				url += "&overall_rating=" + match.getRating();
-				url += "&notes=" + match.getNotes();
-				url += "&auto_moved=" + (match.isAutoMoved()?"1":"0");
-				url += "&auto_scored_low=" + match.getAutoScoredLow();
-				url += "&auto_scored_high=" + match.getAutoScoredHigh();
-				url += "&auto_scored_hot=" + (match.isAutoScoredHot()?"1":"0");
-				url += "&teleop_pick_up=" + match.getOffGround();
-				url += "&teleop_assist_initialized=" + match.getAssistsStarted();
-				url += "&teleop_assist_acquired=" + match.getAssistsReceived();
-				url += "&teleop_second_assist_initialized=" + match.getSecAssistsStarted();
-				url += "&teleop_second_assist_acquired=" + match.getSecAssistsReceived();
-				url += "&teleop_scored_low=" + match.getScoredLow();
-				url += "&teleop_scored_high=" + match.getScoredHigh();
-				url += "&teleop_throw_truss=" + match.getOffGround();
-				url += "&teleop_catch_truss=" + match.getFromTruss();
-				url += "&strategy_goal=" + (match.isGoalie()?"1":"0");
-				url += "&strategy_passer=" + (match.isPasser()?"1":"0");
-				url += "&strategy_catcher=" + (match.isCatcher()?"1":"0");
-				url += "&strategy_launcher=" + (match.isLauncher()?"1":"0");
-				url += "&strategy_defense=" + (match.isDefense()?"1":"0");
-				url += "&strategy_broken=" + (match.isBroken()?"1":"0");
+				String parameters = "";
+				parameters += "timestamp=" + encode(match.getEntryTimestamp());
+				parameters += "&regional=" + encode(match.getRegional());
+				parameters += "&team_number=" + encode(match.getTeam().getTeamNumber());
+				parameters += "&match_number=" + encode(match.getGameType().getShortName() + match.getMatchNumber());
+				parameters += "&overall_rating=" + encode(match.getRating());
+				parameters += "&notes=" + encode(match.getNotes());
+				parameters += "&auto_moved=" + encode(match.isAutoMoved()?"1":"0");
+				parameters += "&auto_scored_low=" + encode(match.getAutoScoredLow());
+				parameters += "&auto_scored_high=" + encode(match.getAutoScoredHigh());
+				parameters += "&auto_scored_hot=" + encode(match.isAutoScoredHot()?"1":"0");
+				parameters += "&teleop_pick_up=" + encode(match.getOffGround());
+				parameters += "&teleop_assist_initialized=" + encode(match.getAssistsStarted());
+				parameters += "&teleop_assist_acquired=" + encode(match.getAssistsReceived());
+				parameters += "&teleop_second_assist_initialized=" + encode(match.getSecAssistsStarted());
+				parameters += "&teleop_second_assist_acquired=" + encode(match.getSecAssistsReceived());
+				parameters += "&teleop_scored_low=" + encode(match.getScoredLow());
+				parameters += "&teleop_scored_high=" + encode(match.getScoredHigh());
+				parameters += "&teleop_throw_truss=" + encode(match.getOffGround());
+				parameters += "&teleop_catch_truss=" + encode(match.getFromTruss());
+				parameters += "&strategy_goal=" + encode(match.isGoalie()?"1":"0");
+				parameters += "&strategy_passer=" + encode(match.isPasser()?"1":"0");
+				parameters += "&strategy_catcher=" + encode(match.isCatcher()?"1":"0");
+				parameters += "&strategy_launcher=" + encode(match.isLauncher()?"1":"0");
+				parameters += "&strategy_defense=" + encode(match.isDefense()?"1":"0");
+				parameters += "&strategy_broken=" + encode(match.isBroken()?"1":"0");
 				try {
-					boolean success = getWebsiteData(url).toLowerCase(Locale.US).contains("success");
+					boolean success = getWebsiteData("add_item.php", parameters).toLowerCase(Locale.US).contains("success");
 					if (callback != null)
 						callback.onMatchDataAdded(match, success);
 				} catch (ClientProtocolException e) {
@@ -72,8 +76,7 @@ public class WebDatabase implements Database {
 	}
 	
 	public ArrayList<Match> getTeamData(Team team, String regional) throws ClientProtocolException, IOException {
-		final String url = HOST+"get_items.php?team="+team.getTeamNumber()+"&regional="+regional;
-		return getMatches(url);
+		return getMatches("get_items.php", "team="+encode(team.getTeamNumber())+"&regional="+encode(regional));
 	}
 	
 	@Override
@@ -95,8 +98,7 @@ public class WebDatabase implements Database {
 	}
 	
 	public ArrayList<Match> getTeamData(Team team) throws ClientProtocolException, IOException {
-		String url = HOST+"get_items.php?team="+team.getTeamNumber();
-		return getMatches(url);
+		return getMatches("get_items.php", "team="+encode(team.getTeamNumber()));
 	}
 	
 	@Override
@@ -118,8 +120,7 @@ public class WebDatabase implements Database {
 	}
 	
 	public ArrayList<Match> getRegionalData(String regional) throws ClientProtocolException, IOException {
-		String url = HOST+"get_items.php?regional="+regional;
-		return getMatches(url);
+		return getMatches("get_items.php", "regional="+encode(regional));
 	}
 	
 	@Override
@@ -141,8 +142,7 @@ public class WebDatabase implements Database {
 	}
 	
 	public ArrayList<Match> getRows(int start, int limit) throws ClientProtocolException, IOException {
-		String url = HOST+"get_items.php?start="+(start-1)+"&limit="+limit;
-		return getMatches(url);
+		return getMatches("get_items.php", "start="+encode(start-1)+"&limit="+encode(limit));
 	}
 	
 	public void requestRows(final int start, final int limit, final DatabaseCallback callback) {
@@ -162,8 +162,8 @@ public class WebDatabase implements Database {
 		});
 	}
 	
-	private ArrayList <Match> getMatches(String url) throws ClientProtocolException, IOException {
-		String data = getWebsiteData(url.replace(" ", "%20"));
+	private ArrayList <Match> getMatches(String file, String parameters) throws ClientProtocolException, IOException {
+		String data = getWebsiteData(file, parameters);
 		ArrayList <Match> matches = new ArrayList<Match>();
 		String [] entries = data.split("\n");
 		for (int i = 1; i < entries.length; i++) {
@@ -175,7 +175,25 @@ public class WebDatabase implements Database {
 		return matches;
 	}
 	
-	private String getWebsiteData(String url) throws ClientProtocolException, IOException {
+	private String encode(Integer i) {
+		return encode(i.toString());
+	}
+	
+	private String encode(Float i) {
+		return encode(i.toString());
+	}
+	
+	private String encode(String str) {
+		try {
+			return URLEncoder.encode(str, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			return str;
+		}
+	}
+	
+	private String getWebsiteData(String file, String parameters) throws ClientProtocolException, IOException {
+		String url = HOST + file + "?" + parameters;
+		Log.d("WebDatabase", url);
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(url);
 		HttpResponse response = httpclient.execute(httpget);
