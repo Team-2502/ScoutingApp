@@ -1,5 +1,7 @@
 package com.team2502.scoutingapp;
 
+import java.security.InvalidParameterException;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.SparseArrayCompat;
@@ -65,8 +67,8 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 	public Match inputMatchData(Match match) {
 		String [] competitions = getResources().getStringArray(R.array.competitions);
 		long competitionId = ((Spinner)getInflatedView().findViewById(R.id.eventName)).getSelectedItemId();
-		if (competitionId <= 0 || competitionId >= competitions.length)
-			return null;
+		if (competitionId < 0 || competitionId >= competitions.length)
+			throw new InvalidParameterException("Competition ID must be between 0 and " + competitions.length);
 		String val = competitions[(int)competitionId];
 		match.setRegional(val);
 		Team team = new Team();

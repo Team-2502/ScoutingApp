@@ -9,7 +9,7 @@
     <string name="match_number">Match Number</string>
     <string name="match_number_hint">0</string>
     <string name="gametype">Game Type</string>
-    <string name="autonomous">Autonomus</string>
+    <string name="autonomous">Autonomous</string>
     <string name="teleop">Teleop</string>
     <string name="finalize">Finalize</string>
     <string name="yes">Yes</string>
@@ -17,6 +17,7 @@
     <string name="moved">Moved</string>
     <string name="auto_scored_hot">Scored Hot</string>
     <string name="auto_scored_low">Scored Low</string>
+    <string name="auto_scored_high">Scored High</string>
     <string name="scored_hot">Scored Hot</string>
     <string name="scored_low">Scored Low</string>
     <string name="scored_high">Scored High</string>
