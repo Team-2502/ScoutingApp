@@ -54,6 +54,8 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 		try {
 			int count = (int) Double.parseDouble(countText.getText().toString());
 			count++;
+			if (count > 3)
+				count = 3;
 			countText.setText(String.valueOf(count));
 		} catch (NumberFormatException e) {
 			countText.setText("0");
@@ -84,6 +86,10 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 		}
 		int low = Utilities.parseIntSafe(((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).getEditableText().toString());
 		int high = Utilities.parseIntSafe(((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).getEditableText().toString());
+		if (low > 3 || low < 0)
+			return null;
+		if (high > 3 || high < 0)
+			return null;
 		match.setAutoMoved(((Checkable) getInflatedView().findViewById(R.id.movedSwitch)).isChecked());
 		match.setAutoScoredHot(((Checkable) getInflatedView().findViewById(R.id.scoredHotSwitch)).isChecked());
 		match.setAutoScoredLow(low);

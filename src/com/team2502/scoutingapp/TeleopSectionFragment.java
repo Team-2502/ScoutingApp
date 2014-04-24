@@ -45,12 +45,14 @@ public class TeleopSectionFragment extends Fragment implements OnClickListener {
 		try {
 			int count = (int) Double.parseDouble(countText.getText().toString());
 			count++;
+			if (count > 10)
+				count = 10;
 			countText.setText(String.valueOf(count));
 		} catch (NumberFormatException e) {
 			countText.setText("0");
 		}
 	}
-
+	
 	public Match inputMatchData(Match match) {
 		match.setOffGround(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.groundCount)).getEditableText().toString()));
 		match.setAssistsStarted(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.startedCount)).getEditableText().toString()));
@@ -61,6 +63,20 @@ public class TeleopSectionFragment extends Fragment implements OnClickListener {
 		match.setScoredHigh(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).getEditableText().toString()));
 		match.setOverTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.overTrussCount)).getEditableText().toString()));
 		match.setFromTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.fromTrussCount)).getEditableText().toString()));
+		if (match.getAssistsStarted() < 0 || match.getAssistsStarted() > 10)
+			return null;
+		if (match.getAssistsReceived() < 0 || match.getAssistsReceived() > 10)
+			return null;
+		if (match.getSecAssistsStarted() < 0 || match.getSecAssistsStarted() > 10)
+			return null;
+		if (match.getSecAssistsReceived() < 0 || match.getSecAssistsReceived() > 10)
+			return null;
+		if (match.getOverTruss() < 0 || match.getOverTruss() > 10)
+			return null;
+		if (match.getFromTruss() < 0 || match.getFromTruss() > 10)
+			return null;
+		if (match.getOffGround() < 0 || match.getOffGround() > 10)
+			return null;
 		return match;
 	}
 

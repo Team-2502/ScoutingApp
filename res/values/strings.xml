@@ -67,7 +67,6 @@
     <string-array name="gamemodes_array">
         <item>Practice</item>
         <item>Qualification</item>
-        <item>Elimination</item>
     </string-array>
     <string-array name="competitions">
         <item value="-1">Competition</item>
