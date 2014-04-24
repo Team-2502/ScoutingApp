@@ -14,29 +14,41 @@ import com.team2502.scoutingapp.data.Match;
 
 public class TeleopSectionFragment extends Fragment implements OnClickListener {
 	private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
-	private View inflatedView;
+	private EditText groundCountText;
+	private EditText startedCountText;
+	private EditText receivedCountText;
+	private EditText secStartedCountText;
+	private EditText secReceivedCountText;
+	private EditText scoredHighCountText;
+	private EditText scoredLowCountText;
+	private EditText overTrussCountText;
+	private EditText fromTrussCountText;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_section_teleop, container, false);
-		buttons.put(R.id.addGround, (EditText) view.findViewById(R.id.groundCount));
-		buttons.put(R.id.addStarted, (EditText) view.findViewById(R.id.startedCount));
-		buttons.put(R.id.addReceived, (EditText) view.findViewById(R.id.receivedCount));
-		buttons.put(R.id.addSecStarted, (EditText) view.findViewById(R.id.secStartedCount));
-		buttons.put(R.id.addSecReceived, (EditText) view.findViewById(R.id.secReceivedCount));
-		buttons.put(R.id.addHigh, (EditText) view.findViewById(R.id.scoredHighCount));
-		buttons.put(R.id.addLow, (EditText) view.findViewById(R.id.scoredLowCount));
-		buttons.put(R.id.addOverTruss, (EditText) view.findViewById(R.id.overTrussCount));
-		buttons.put(R.id.addFromTruss, (EditText) view.findViewById(R.id.fromTrussCount));
+		groundCountText = (EditText) view.findViewById(R.id.groundCount);
+		startedCountText = (EditText) view.findViewById(R.id.startedCount);
+		receivedCountText = (EditText) view.findViewById(R.id.receivedCount);
+		secStartedCountText = (EditText) view.findViewById(R.id.secStartedCount);
+		secReceivedCountText = (EditText) view.findViewById(R.id.secReceivedCount);
+		scoredHighCountText = (EditText) view.findViewById(R.id.scoredHighCount);
+		scoredLowCountText = (EditText) view.findViewById(R.id.scoredLowCount);
+		overTrussCountText = (EditText) view.findViewById(R.id.overTrussCount);
+		fromTrussCountText = (EditText) view.findViewById(R.id.fromTrussCount);
+		buttons.put(R.id.addGround, groundCountText);
+		buttons.put(R.id.addStarted, startedCountText);
+		buttons.put(R.id.addReceived, receivedCountText);
+		buttons.put(R.id.addSecStarted, secStartedCountText);
+		buttons.put(R.id.addSecReceived, secReceivedCountText);
+		buttons.put(R.id.addHigh, scoredHighCountText);
+		buttons.put(R.id.addLow, scoredLowCountText);
+		buttons.put(R.id.addOverTruss, overTrussCountText);
+		buttons.put(R.id.addFromTruss, fromTrussCountText);
 		for(int i = 0; i < buttons.size(); i++) {
 			((Button) view.findViewById(buttons.keyAt(i))).setOnClickListener(this);
 		}
-		this.inflatedView = view;
 		return view;
-	}
-
-	public View getInflatedView() {
-		return inflatedView;
 	}
 
 	@Override
@@ -54,15 +66,15 @@ public class TeleopSectionFragment extends Fragment implements OnClickListener {
 	}
 	
 	public Match inputMatchData(Match match) {
-		match.setOffGround(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.groundCount)).getEditableText().toString()));
-		match.setAssistsStarted(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.startedCount)).getEditableText().toString()));
-		match.setAssistsReceived(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.receivedCount)).getEditableText().toString()));
-		match.setSecAssistsStarted(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.secStartedCount)).getEditableText().toString()));
-		match.setSecAssistsReceived(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.secReceivedCount)).getEditableText().toString()));
-		match.setScoredLow(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).getEditableText().toString()));
-		match.setScoredHigh(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).getEditableText().toString()));
-		match.setOverTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.overTrussCount)).getEditableText().toString()));
-		match.setFromTruss(Integer.parseInt(((EditText)getInflatedView().findViewById(R.id.fromTrussCount)).getEditableText().toString()));
+		match.setOffGround(Integer.parseInt(groundCountText.getEditableText().toString()));
+		match.setAssistsStarted(Integer.parseInt(startedCountText.getEditableText().toString()));
+		match.setAssistsReceived(Integer.parseInt(receivedCountText.getEditableText().toString()));
+		match.setSecAssistsStarted(Integer.parseInt(secStartedCountText.getEditableText().toString()));
+		match.setSecAssistsReceived(Integer.parseInt(secReceivedCountText.getEditableText().toString()));
+		match.setScoredLow(Integer.parseInt(scoredLowCountText.getEditableText().toString()));
+		match.setScoredHigh(Integer.parseInt(scoredHighCountText.getEditableText().toString()));
+		match.setOverTruss(Integer.parseInt(overTrussCountText.getEditableText().toString()));
+		match.setFromTruss(Integer.parseInt(fromTrussCountText.getEditableText().toString()));
 		if (match.getAssistsStarted() < 0 || match.getAssistsStarted() > 10)
 			return null;
 		if (match.getAssistsReceived() < 0 || match.getAssistsReceived() > 10)
@@ -81,14 +93,14 @@ public class TeleopSectionFragment extends Fragment implements OnClickListener {
 	}
 
 	public void reset() {
-		((EditText)getInflatedView().findViewById(R.id.groundCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.startedCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.receivedCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.secStartedCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.secReceivedCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.overTrussCount)).setText("0");
-		((EditText)getInflatedView().findViewById(R.id.fromTrussCount)).setText("0");
+		groundCountText.setText("0");
+		startedCountText.setText("0");
+		receivedCountText.setText("0");
+		secStartedCountText.setText("0");
+		secReceivedCountText.setText("0");
+		scoredLowCountText.setText("0");
+		scoredHighCountText.setText("0");
+		overTrussCountText.setText("0");
+		fromTrussCountText.setText("0");
 	}
 }

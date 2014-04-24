@@ -23,31 +23,47 @@ import com.team2502.scoutingapp.data.Team;
 
 public class AutonomousSectionFragment extends Fragment implements OnClickListener, OnItemSelectedListener {
 	private SparseArrayCompat<EditText> buttons = new SparseArrayCompat<EditText>();
-	private View inflatedView;
-	
+
+	private Spinner competitionSpinner;
+	private EditText teamNumberText;
+	private EditText matchNumberText;
+	private Spinner gameTypeSpinner;
+	private EditText scoredLowText;
+	private EditText scoredHighText;
+	private Checkable movedSwitch;
+	private Checkable scoredHotSwitch;
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_section_autonomous, container, false);
-		buttons.put(R.id.addScoredLow, (EditText) view.findViewById(R.id.scoredLowCount));
-		buttons.put(R.id.addScoredHigh, (EditText) view.findViewById(R.id.scoredHighCount));
-		Spinner gameTypeSpinner = (Spinner) view.findViewById(R.id.gametypeSelector);
+
+		teamNumberText = (EditText) view.findViewById(R.id.teamNumber);
+		matchNumberText = (EditText) view.findViewById(R.id.matchNumber);
+		scoredLowText = (EditText) view.findViewById(R.id.scoredLowCount);
+		scoredHighText = (EditText) view.findViewById(R.id.scoredHighCount);
+		movedSwitch = (Checkable) view.findViewById(R.id.movedSwitch);
+		scoredHotSwitch = (Checkable) view.findViewById(R.id.scoredHotSwitch);
+
+		buttons.put(R.id.addScoredLow, scoredLowText);
+		buttons.put(R.id.addScoredHigh, scoredHighText);
+
+		gameTypeSpinner = (Spinner) view.findViewById(R.id.gametypeSelector);
 		ArrayAdapter<CharSequence> gameTypeAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.gamemodes_array, android.R.layout.simple_spinner_item);
 		gameTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		gameTypeSpinner.setAdapter(gameTypeAdapter);
-		Spinner competitionSpinner = (Spinner) view.findViewById(R.id.eventName);
+
+		competitionSpinner = (Spinner) view.findViewById(R.id.eventName);
 		ArrayAdapter<CharSequence> competitionAdapter = ArrayAdapter.createFromResource(this.getActivity(), R.array.competitions, android.R.layout.simple_spinner_item);
 		competitionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		competitionSpinner.setAdapter(competitionAdapter);
 		competitionSpinner.setOnItemSelectedListener(this);
+
 		for(int i = 0; i < buttons.size(); i++) {
 			((Button) view.findViewById(buttons.keyAt(i))).setOnClickListener(this);
 		}
-		this.inflatedView = view;
+
 		return view;
-	}
-	
-	public View getInflatedView() {
-		return inflatedView;
 	}
 
 	@Override
@@ -63,19 +79,19 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 			countText.setText("0");
 		}
 	}
-	
+
 	public Match inputMatchData(Match match) {
 		String [] competitions = getResources().getStringArray(R.array.competitions);
-		long competitionId = ((Spinner)getInflatedView().findViewById(R.id.eventName)).getSelectedItemId();
+		long competitionId = competitionSpinner.getSelectedItemId();
 		if (competitionId < 0 || competitionId >= competitions.length)
 			throw new InvalidParameterException("Competition ID must be between 0 and " + competitions.length);
 		String val = competitions[(int)competitionId];
 		match.setRegional(val);
 		Team team = new Team();
-		team.setTeamNumber(Integer.parseInt(((EditText) getInflatedView().findViewById(R.id.teamNumber)).getEditableText().toString()));
+		team.setTeamNumber(Integer.parseInt(teamNumberText.getEditableText().toString()));
 		match.setTeam(team);
-		match.setMatchNumber(Integer.parseInt(((EditText) getInflatedView().findViewById(R.id.matchNumber)).getEditableText().toString()));
-		switch(((Spinner) getInflatedView().findViewById(R.id.gametypeSelector)).getSelectedItemPosition()) {
+		match.setMatchNumber(Integer.parseInt(matchNumberText.getEditableText().toString()));
+		switch(gameTypeSpinner.getSelectedItemPosition()) {
 		case 0:
 			match.setGameType(GameType.PRACTICE);
 			break;
@@ -86,27 +102,27 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 			match.setGameType(GameType.ELIMINATION);
 			break;
 		}
-		int low = Utilities.parseIntSafe(((EditText)getInflatedView().findViewById(R.id.scoredLowCount)).getEditableText().toString());
-		int high = Utilities.parseIntSafe(((EditText)getInflatedView().findViewById(R.id.scoredHighCount)).getEditableText().toString());
+		int low = Utilities.parseIntSafe(scoredLowText.getEditableText().toString());
+		int high = Utilities.parseIntSafe(scoredHighText.getEditableText().toString());
 		if (low > 3 || low < 0)
-			return null;
+			throw new InvalidParameterException("Low goal score must be between 0 and 3");
 		if (high > 3 || high < 0)
-			return null;
-		match.setAutoMoved(((Checkable) getInflatedView().findViewById(R.id.movedSwitch)).isChecked());
-		match.setAutoScoredHot(((Checkable) getInflatedView().findViewById(R.id.scoredHotSwitch)).isChecked());
+			throw new InvalidParameterException("High goal score must be between 0 and 3");
+		match.setAutoMoved(movedSwitch.isChecked());
+		match.setAutoScoredHot(scoredHotSwitch.isChecked());
 		match.setAutoScoredLow(low);
 		match.setAutoScoredHigh(high);
 		return match;
 	}
-	
+
 	public void reset() {
-		((EditText) getInflatedView().findViewById(R.id.teamNumber)).setText("");
-		((EditText) getInflatedView().findViewById(R.id.matchNumber)).setText("");
-		
-		((Checkable) getInflatedView().findViewById(R.id.movedSwitch)).setChecked(false);
-		((Checkable) getInflatedView().findViewById(R.id.scoredHotSwitch)).setChecked(false);
-		((EditText) getInflatedView().findViewById(R.id.scoredLowCount)).setText(R.string.default_counter_value);
-		((EditText) getInflatedView().findViewById(R.id.scoredHighCount)).setText(R.string.default_counter_value);
+		teamNumberText.setText("");
+		matchNumberText.setText("");
+
+		movedSwitch.setChecked(false);
+		scoredHotSwitch.setChecked(false);
+		scoredLowText.setText(R.string.default_counter_value);
+		scoredHighText.setText(R.string.default_counter_value);
 	}
 
 	@Override
@@ -115,6 +131,6 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		
+
 	}
 }
