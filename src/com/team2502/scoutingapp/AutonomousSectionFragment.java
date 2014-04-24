@@ -102,7 +102,6 @@ public class AutonomousSectionFragment extends Fragment implements OnClickListen
 	public void reset() {
 		((EditText) getInflatedView().findViewById(R.id.teamNumber)).setText("");
 		((EditText) getInflatedView().findViewById(R.id.matchNumber)).setText("");
-		((Spinner) getInflatedView().findViewById(R.id.gametypeSelector)).setSelection(0);
 		
 		((Checkable) getInflatedView().findViewById(R.id.movedSwitch)).setChecked(false);
 		((Checkable) getInflatedView().findViewById(R.id.scoredHotSwitch)).setChecked(false);
