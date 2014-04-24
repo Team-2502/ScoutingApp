@@ -487,7 +487,8 @@ public class Match {
 	 */
 	@Override
 	public String toString() {
-		String summary = "Team: " + getTeam().getTeamNumber() + "\n";
+		String summary = "Regional: " + getRegional() + "\n";
+		summary += "Team: " + getTeam().getTeamNumber() + "\n";
 		summary += "Match #: " + getMatchNumber() + "\n";
 		summary += "Match Type: " + getGameType() + "\n\n";
 		summary += "Moved: " + (isAutoMoved() ? "Yes" : "No") + "\n";
