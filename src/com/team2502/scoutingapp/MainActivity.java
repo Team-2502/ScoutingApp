@@ -154,6 +154,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		send.setType("text/plain");
 		send.putExtra(android.content.Intent.EXTRA_TEXT, match.toString());
 		startActivity(Intent.createChooser(send, "Send Using"));
+		reset();
 	}
 	
 }
